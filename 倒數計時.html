@@ -104,6 +104,8 @@
         <div class="control_btn">
         <button onclick="time_go()">倒數開始</button>
         <button onclick="time_stop()">暫停</button>
+        <button onclick="time_clear()">歸零</button>
+        
     </div>
         <br>
         <div class="add_btn">
@@ -211,7 +213,21 @@
         console.log("暫停")
                 //變成沒動畫
                 document.getElementById("ss").id = 'sss';
+                
             }
+    }
+    function time_clear(){
+        if(flag == true){
+        document.getElementById("ss").id = 'sss';
+        clearInterval(time_st);
+        }
+        ss=0;
+        mm=0;
+        hh=0;
+        document.getElementById("sss").innerText =ss;
+        document.getElementById("mm").innerText =mm;
+        document.getElementById("hh").innerText =hh;
+
     }
 
 
