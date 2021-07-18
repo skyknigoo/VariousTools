@@ -1,45 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>倒數小工具</title>
-    <style>
-        .add_btn button{
-            margin: 5px ;
-            font-size: 20px;
-            border-radius: 10px;
-            border: 0px;
-            color: blue;
-            background-color: darkgray;
-            padding:5px 10px;
-        }
-        .control_btn button{
-            position: relative;
-            left:  10px;
-            margin: 0px 50px ;
-            font-size: 20px;
-            border-radius: 10px;
-            border: 0px;
-            color: darkslateblue;
-            font-weight: bold;
-            background-color: plum;
-            padding:5px 10px;
-        }
-        #table_one{
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>倒數小工具</title>
+        <style>
+            #btn_div{
+                background-color: rgb(153, 153, 153);
+            }
+            /* 倒數開始 暫停 歸零按鈕 */
+            .control_btn button {
+                position: relative;
+                left: 34%;
+                margin: 10px 50px;
+                font-size: 20px;
+                border-radius: 10px;
+                border: 0px;
+                color: white;
+                font-weight: bold;
+                background-color: rgb(3, 212, 115);
+                padding: 5px 10px;
+                cursor: pointer;
+                box-shadow: 0px 5px 1px rgb(0, 110, 37);
+                padding: 10px 20px;
+            }
+            /* 增加時間按鈕 */
+            .add_btn button {
+                position: relative;
+                left: 34%;
+                margin: 10px  50px;
+                font-size: 20px;
+                border-radius: 10px;
+                border: 0px;
+                color: white;
+                background-color: rgb(3, 179, 233);
+                box-shadow: 0px 5px 1px rgb(0, 121, 177);
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+            /* #table_one{
                 border:3px purple solid;
                 position: relative;
                 top: 80px;
-                /* left: 250px; */
                 background-color: #4f4f4f;
                 border-radius: 25px;
                 color: white;
                 padding: 5px 10px;
             }
             #table_one td{
-                
-                /* border:3px #cccccc solid; */
                 width: 180px;
                 font-size: 80px;
                 text-align: end;
@@ -70,7 +79,7 @@
                 animation-name: nww;
                 animation-duration: 1s;
                 animation-iteration-count:infinite;
-            }
+            } 
             @keyframes nww {
                 0% {
                     top:-10px;
@@ -84,190 +93,249 @@
                     top: 50px;
                     opacity: 0%;
                 }
+            } */
+            /* 新樣式CSS */
+            #clock_div{
+                padding: 10px;
+                
+                background-color: rgb(255, 255, 255);
             }
-    </style>
-</head>
 
-<body>
-    <h3 style="text-align:start ;">毛蟲-倒數小工具</h3>
-
-    <table id="table_one">
-        <tr>
-            <td id="hh">0</td>
-            <td>時</td>
-            <td id="mm">0</td>
-            <td>分</td>
-            <td id="sss">0</td>
-            <td>秒</td>
-
-        </tr>
-        <div class="control_btn">
-        <button onclick="time_go()">倒數開始</button>
-        <button onclick="time_stop()">暫停</button>
-        <button onclick="time_clear()">歸零</button>
-        
-    </div>
-        <br>
-        <div class="add_btn">
-        <button onclick="add_time('hhh')">加1小時</button>
-        <br>
-        <button onclick="add_time('mmm')">加1分鐘</button>
-        <button onclick="add_time('mm10')">加10分鐘</button>
-        <button onclick="add_time('mm30')">加30分鐘</button>
-        <br>
-        <button onclick="add_time('sss')">加1秒鐘</button>
-        <button onclick="add_time('ss10')">加10秒鐘</button>
-        <button onclick="add_time('ss30')">加30秒鐘</button>
-    </div>
-    </table>
-    <!-- <div>
-    <input type="number" min="0" id="h_time">時
-    <input type="number" min="0" id="m_time">分
-    <input type="number" min="0" id="s_time">秒
-    </div> -->
-    <!-- <hr> -->
-
-</body>
-<script>
-    ss=0;
-    mm=0;
-    hh=0;
-    flag=false;
-    function add_time(time){
-        constss = document.getElementById("sss")
-        constmm = document.getElementById("mm")
-        consthh = document.getElementById("hh")
-        switch (time) {
-        //秒鐘
-            case "sss":
-            ss = ss +1;          
-            constss.innerText =ss;
-            if(ss > 60){
-                mm.innerText +=1;
-            }
-            break;
-            case "ss10":
-            ss = ss +10;          
-            constss.innerText =ss;
-            break;
-            case "ss30":
-            ss = ss +30;          
-            constss.innerText =ss;
-            if(ss > 60){
-                mm.innerText +=1;
-            }
-            break;
-        //分鐘
-            case "mmm":
-            mm = mm +1;
-            constmm.innerText = mm;
-                break;
-            case "mm10":
-            mm = mm +10;
-            constmm.innerText =mm;
-                break;
-            case "mm30":
-            mm = mm +30;
-            constmm.innerText =mm;
-                break;
-        //時鐘
-            case "hhh":
-            hh = hh +1;
-            document.getElementById("hh").innerText =hh;
-                break;
-        
-            default:
-                break;
-        }
-        if(constss.innerText > 60){
-                mm = mm +1;
-                constmm.innerText = mm ;
-                ss = 0;
-                constss.innerText = 0;
-            }
-        if(constmm.innerText > 60){
-                hh = hh +1;
-                consthh.innerText = hh ;
-                mm = 0;
-                constmm.innerText = 0;
-            }
-    }
-
-    //開始倒數
-    function time_go(){
-        if(ss+mm+hh == 0){
-            alert("請設定時間唷")
-        }else{
-        console.log("開始倒數")
-        time_st = setInterval("lsee_time()",1000);
-        flag=true;
-        //變成動畫
-        document.getElementById("sss").id = 'ss';
-    }
-    }
-    //暫停倒數
-    function time_stop(){
-        if(flag == true){
-        clearInterval(time_st);
-        flag =false;
-        console.log("暫停")
-                //變成沒動畫
-                document.getElementById("ss").id = 'sss';
+            .clock_table {
+                position: relative;
+                left: 33%;
+                margin: 20px 0;
+                background-color: #cccccc;
+                border-radius: 10px;
+                box-shadow: 1px 3px 3px rgb(109, 109, 109);
+                width: 500px;
+                height: 80px;
                 
             }
-    }
-    function time_clear(){
-        if(flag == true){
-        document.getElementById("ss").id = 'sss';
-        clearInterval(time_st);
-        }
-        ss=0;
-        mm=0;
-        hh=0;
-        document.getElementById("sss").innerText =ss;
-        document.getElementById("mm").innerText =mm;
-        document.getElementById("hh").innerText =hh;
+            .clock_table td {
+                position: relative;
 
-    }
+                font-size: 50px;
+                /* vertical-align:text-bottom; */
+                font-weight: bold;
+                padding: 0px 20px;
+                width: 200px;
+            }
+            .time_text {
+                color: white;
+                text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.726);
+            }
+            .time_num {
+                color: rgb(255, 255, 255);
+                text-shadow: 0 0 0.2em rgb(111, 255, 135), 0 0 0.2em rgb(103, 155, 103);
+                font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+            }
 
-
-    function lsee_time(){
-
-
-                if (ss == 0) {
-                    if ( (hh >= 0) | (mm >= 0)) {
-                        if (mm <= 0) {
-                            hh--;
-                            mm = 60;
-                            if (hh < 0) {                               
-                                hh = 23;
-                            }
-                        }
-                        mm--;
-                        ss = 60;
-                    }
+            #ss {
+                position: relative;
+                animation-name: top_to_down;
+                animation-duration: 1s;
+                animation-iteration-count: infinite;
+            }
+            @keyframes top_to_down {
+                0% {
+                    top: -10px;
+                    opacity: 3%;
                 }
-        
-        
+                50% {
+                    top: 0px;
+                    opacity: 100%;
+                }
+                70% {
+                    top: 15px;
+                    opacity: 0%;
+                }
+                100% {
+                    top: 30px;
+                    opacity: 0%;
+                }
+            }
+            #ss {
+                animation-name: flop;
+                animation-duration: 1s;
+                animation-iteration-count: infinite;
+                transform-origin: 50% 100%;
+                /* background-color: black; */
+            }
+
+            @keyframes flop {
+                0% {
+                    opacity: 0%;
+                    transform: perspective(160px) rotateX(70deg);
+                }
+                50% {
+                    opacity: 100%;
+                    transform: perspective(160px) rotateX(0deg);
+                }
+                100% {
+                    opacity: 0%;
+                    transform: perspective(160px) rotateX(-70deg);
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3 style="text-align: center;">毛蟲-倒數小工具</h3>
+        <hr>
+        <div id="btn_div"> 
+        <div class="control_btn">
+            <button onclick="time_go()">倒數開始</button>
+            <button onclick="time_stop()">暫停</button>
+            <button onclick="time_clear()">歸零</button>
+        </div>
+        <div class="add_btn">
+            <button onclick="add_time('hhh')">加1小時</button>
+            <br />
+            <button onclick="add_time('mmm')">加1分鐘</button>
+            <button onclick="add_time('mm10')">加10分鐘</button>
+            <button onclick="add_time('mm30')">加30分鐘</button>
+            <br />
+            <button onclick="add_time('sss')">加1秒鐘</button>
+            <button onclick="add_time('ss10')">加10秒鐘</button>
+            <button onclick="add_time('ss30')">加30秒鐘</button>
+        </div>
+    </div>
+    <div id="clock_div">
+        <table class="clock_table">
+            <tr>
+                <td id="dd" class="time_num">0</td>
+                <td class="time_text">天</td>
+                <td id="hh" class="time_num">0</td>
+                <td class="time_text">時</td>
+                <td id="mm" class="time_num">0</td>
+                <td class="time_text">分</td>
+                <td id="sss" class="time_num">0</td>
+                <td class="time_text">秒</td>
+            </tr>
+        </table>
+    </div>
+    </body>
+    <script>
+        ss = 0;
+        mm = 0;
+        hh = 0;
+        flag = false;
+        function add_time(time) {
+            constss = document.getElementById("sss");
+            constmm = document.getElementById("mm");
+            consthh = document.getElementById("hh");
+            switch (time) {
+                //秒鐘
+                case "sss":
+                    ss = ss + 1;
+                    break;
+                case "ss10":
+                    ss = ss + 10;
+                    break;
+                case "ss30":
+                    ss = ss + 30;
+                    break;
+                //分鐘
+                case "mmm":
+                    mm = mm + 1;
+                    break;
+                case "mm10":
+                    mm = mm + 10;
+                    break;
+                case "mm30":
+                    mm = mm + 30;
+                    break;
+                //時鐘
+                case "hhh":
+                    hh = hh + 1;
+                    break;
+            }
+            constss.innerText = ss;
+            constmm.innerText = mm;
+            consthh.innerText = hh;
+
+            if (constss.innerText > 60) {
+                mm = mm + 1;
+                constmm.innerText = mm;
+                ss = 0;
+                constss.innerText = ss;
+            }
+            if (constmm.innerText > 60) {
+                hh = hh + 1;
+                consthh.innerText = hh;
+                mm = 0;
+                constmm.innerText = mm;
+            }
+        }
+
+        //開始倒數
+        function time_go() {
+            if (ss + mm + hh == 0) {
+                alert("請設定時間唷");
+            } else {
+                console.log("開始倒數");
+                time_st = setInterval("lsee_time()", 1000);
+                flag = true;
+                //變成動畫
+                document.getElementById("sss").id = "ss";
+            }
+        }
+        //暫停倒數
+        function time_stop() {
+            if (flag == true) {
+                clearInterval(time_st);
+                flag = false;
+                console.log("暫停");
+                //變成沒動畫
+                document.getElementById("ss").id = "sss";
+            }
+        }
+        //歸零數字
+        function time_clear() {
+            if (flag == true) {
+                document.getElementById("ss").id = "sss";
+                clearInterval(time_st);
+            }
+            ss = 0;
+            mm = 0;
+            hh = 0;
+            document.getElementById("sss").innerText = ss;
+            document.getElementById("mm").innerText = mm;
+            document.getElementById("hh").innerText = hh;
+        }
+
+        function lsee_time() {
+            if (ss == 0) {
+                if ((hh >= 0) | (mm >= 0)) {
+                    if (mm <= 0) {
+                        hh--;
+                        mm = 60;
+                        if (hh < 0) {
+                            hh = 23;
+                        }
+                    }
+                    mm--;
+                    ss = 60;
+                }
+            }
+            ss--;
 
             //每秒都要扣秒數
-            ss--;
-        document.getElementById("ss").innerText =ss;
-        document.getElementById("mm").innerText =mm;
-        document.getElementById("hh").innerText =hh;
 
-        if(ss+mm+hh == 0){
-            var audio = new Audio("./SE/小豬的鑽頭.mp3");
-            audio.play();
-            // alert("時間到了")
-            clearInterval(time_st);
-            document.getElementById("ss").id = 'sss';
+            document.getElementById("ss").innerText = ss;
+            document.getElementById("mm").innerText = mm;
+            document.getElementById("hh").innerText = hh;
 
+            if (ss + mm + hh == 0) {
+                var audio = new Audio("./SE/小豬的鑽頭.mp3");
+                audio.play();
+                // alert("時間到了")
+                clearInterval(time_st);
+                document.getElementById("ss").id = "sss";
+            }
+
+            console.log(hh + ":時" + mm + ":分" + ss + ":秒");
         }
-
-                console.log(hh+":時"+mm+":分"+ss+":秒")
-
-    }
-
-</script>
+    </script>
 </html>
