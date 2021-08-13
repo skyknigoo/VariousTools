@@ -1,0 +1,116 @@
+body{
+    font-family:sans-serif;
+    font-size: 20px;
+    background: rgb(204, 204, 204);
+}
+.table_div {
+    display: flex;
+    align-items: flex-start;
+}
+
+.table_top {
+    margin: 5px;
+    box-shadow: 5px 5px 3px rgb(3, 48, 107);
+}
+
+
+.table_style {
+    border: 3px solid rgb(34, 130, 255);
+    border-collapse: collapse;
+    background: rgb(216, 232, 253);
+}
+
+.table_style th {
+    background:rgb(210, 252, 241);
+    border: rgb(27, 255, 198) 3px solid;
+    padding: 10px;
+    color: rgb(255, 182, 122);
+}
+
+
+.table_style td {
+    /* border:rgb(0, 140, 255) 2px solid; */
+    border-bottom: rgb(34, 130, 255) 2px solid;
+    padding: 10px;
+    text-align: center;
+}
+
+#table_top_div input {
+    width: 150px;
+    height: 20px;
+    font-size: 15px;
+    border: 0px;
+    border-bottom: 2px rgb(137, 216, 179) solid;
+
+}
+#table_top_div :focus{
+    transition: 0.5s;
+    border-style:solid; 
+    border-color: #ffffff; 
+    box-shadow: 0 0 10px #03a9f4;
+    outline: none;
+}
+.table_style img{
+    vertical-align: middle;
+    margin: 5px;
+}
+
+.total_block td {
+    border:rgb(255, 255, 255) 0px solid;
+    
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(36, 94, 255);
+}
+
+.order_user{
+    font-family:Microsoft JhengHei;
+    width: 100px;
+    outline: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(71, 135, 255);
+    border: 0px ;
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px rgb(158, 103, 0);
+    background: rgb(255, 236, 200);
+    text-align-last: center;
+}
+
+/* 右上點餐使用詳情 */
+#order_sorted_table input{
+    width: 150px;
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+
+/* 下方付款區塊 */
+#bot_table{
+    box-shadow: 5px 5px 3px rgb(3, 48, 107);
+}
+#bot_table td{
+        border:rgb(0, 140, 255) 2px solid;
+}
+
+/* 動畫用 */
+#write_cat_run {
+    animation-name: run;
+    animation-duration: 2s;
+}
+
+@keyframes run {
+    0% {
+        margin-left: 0px;
+        
+    }
+    50% {
+        margin-left: 50px;
+        transform: translateY(0px);
+    }
+    75%{
+        transform: translateY(-10px);
+    }
+    100% {
+        margin-left: 0px;
+    }
+}
