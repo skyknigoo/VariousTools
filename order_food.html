@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>訂餐小貓手</title>
+    <link rel="icon" href="./imgs/cat/001-kitty.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/order_css.css">
+</head>
+<body>
+    <div class="table_div">
+        <table class="table_top table_style " id="table_top_div" onchange="go()">
+            <tr>
+                <th>order_food</th>
+                <th>order_user</th>
+                <th>order_price</th>
+            </tr>
+            <tr class="tr_block">
+                <td><img src="./imgs/for_order_food/001-burger.png"><input type="text" class="food_name" name="food" value=""></td>
+                <td><img src="imgs/for_order_food/new_card.png"><select class="order_user"></select></td>
+                <td><img src="imgs/for_order_food/003-dollar.png"><input type="text" class="food_price" placeholder="0"></td>
+            </tr>
+            <tr class="tr_block">
+                <td><img src="./imgs/for_order_food/001-burger.png"><input type="text" class="food_name" name="food" value=""></td>
+                <td><img src="imgs/for_order_food/new_card.png"><select class="order_user"></select></td>
+                <td><img src="imgs/for_order_food/003-dollar.png"><input type="text" class="food_price" placeholder="0"></td>
+            </tr>
+            <tr class="tr_block">
+                <td><img src="./imgs/for_order_food/001-burger.png"><input type="text" class="food_name" name="food" value=""></td>
+                <td><img src="imgs/for_order_food/new_card.png"><select class="order_user"></select></td>
+                <td><img src="imgs/for_order_food/003-dollar.png"><input type="text" class="food_price" placeholder="0"></td>
+            </tr>
+            <tr class="tr_block">
+                <td><img src="./imgs/for_order_food/001-burger.png"><input type="text" class="food_name" name="food" value=""></td>
+                <td><img src="imgs/for_order_food/new_card.png"><select class="order_user"></select></td>
+                <td><img src="imgs/for_order_food/003-dollar.png"><input type="text" class="food_price" placeholder="0"></td>
+            </tr>
+            <tr class="tr_block">
+                <td><img src="./imgs/for_order_food/001-burger.png"><input type="text" class="food_name" name="food" value=""></td>
+                <td><img src="imgs/for_order_food/new_card.png"><select class="order_user" name="order_user"></select></td>
+                <td><img src="imgs/for_order_food/003-dollar.png"><input type="text" class="food_price" name="food_price" placeholder="0"></td>
+            </tr>
+            <tr class="total_block">
+                <td colspan="2" style="text-align: end; font-weight: bold;font-size: 25px;">Total:</td>
+                <td colspan="1" style="text-align: end; font-weight: bold;font-size: 25px;" id="total_price">0</td>
+            </tr>
+        </table>
+        <table class="table_top table_style" id="order_sorted_table">
+            <tr>
+                <!-- <th>
+                    #
+                </th>
+                <th>
+                    food_name
+                </th>
+                <th>
+                    amount
+                </th> -->
+            </tr>
+        </table>
+    </div>
+    <hr>
+    <table class="table_bot table_style" id="bot_table" onchange="pay_now()">
+        <tr>
+            <!-- <th>order_user</th>
+            <th>order_food</th>
+            <th>order_price</th>
+            <th>pay?</th>
+            <th>payTime</th> -->
+        </tr>
+    </table>
+
+    <script src="./js/order_js.js"></script>
+</body>
+</html>
