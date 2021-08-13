@@ -41,7 +41,7 @@ function go() {
     }
     for (x = 0; x < order_user.length; x++) { //將table資料存到obj理 
         newarr = food_name[x].value.replace(/\+/g, "<br>") //將+號便成,符號
-        order_db[x].food_name =  newarr
+        order_db[x].food_name = newarr
         order_db[x].order_price = food_price_all[x].value
         order_db[x].order_user = order_user[x].value
     }
@@ -56,7 +56,7 @@ function go() {
                 if (table_input_Floor == (food_name.length)) {
                     var box = document.querySelector(".total_block");
                     var p = document.createElement('tr');
-                    p.innerHTML = '<tr class="tr_block"><td><img src="./imgs/001-burger.png"><input type="text" class="food_name" name="food" value=""></td><td><img src="imgs/new_card.png"><select class="order_user" class="order_user" name="order_user"></select></td><td><img src="imgs/003-dollar.png"><input type="text" class="food_price" name="food_price" placeholder="0"></td></tr>';
+                    p.innerHTML = '<tr class="tr_block"><td><img src="./imgs/for_order_food/001-burger.png"><input type="text" class="food_name" name="food" value=""></td><td><img src="imgs/for_order_food/new_card.png"><select class="order_user" class="order_user" name="order_user"></select></td><td><img src="imgs/for_order_food/003-dollar.png"><input type="text" class="food_price" name="food_price" placeholder="0"></td></tr>';
                     box.parentNode.insertBefore(p, box);//在box之前添加元素
                     order_user_in_options("newd")
                 }
@@ -94,7 +94,7 @@ function go() {
     document.getElementById("order_sorted_table").innerHTML = "<tr><th>#</th><th>food_name</th><th>amount</th></tr>"
     //每次傳資料都須刷新成預設的樣子 不然會一直被累加上去
     for (x = 0; x < (Object.keys(result).length); x++) {
-        document.getElementById("order_sorted_table").innerHTML += '<tr><td><img src="./imgs/number/00' + (x + 1) + '-number.png" style="width:35px"></td><td><input type="text" class="sorted_food" name="sorted_food" value="" disabled ></td><td><input type="text" class="sorted_amount" name="sorted_amount" value="" disabled style="width:80px;text-align: center;"></td></tr>'
+        document.getElementById("order_sorted_table").innerHTML += '<tr><td><img src="./imgs/for_order_food/number/00' + (x + 1) + '-number.png" style="width:35px"></td><td><input type="text" class="sorted_food" name="sorted_food" value="" disabled ></td><td><input type="text" class="sorted_amount" name="sorted_amount" value="" disabled style="width:80px;text-align: center;"></td></tr>'
     }
     //將資料丟到右上角訂餐系統上
     for (x = 0; x < (Object.keys(result).length); x++) {
@@ -120,7 +120,7 @@ function go() {
     Object.entries(order_db).forEach(entry => {
         const [key, value] = entry;
         if (value.order_user != "options") {
-            bot_table.innerHTML += '<tr><td>' + value.order_user + '</td><td>'+value.food_name+'</td><td>$' + value.order_price + '</td><td ><input type="checkbox" class="bot_pay_checkbox""></td><td class="bot_pay_time" id="cat' + cat_int + '"> <img src="./imgs/cat/kittycry.png"style="width:45px">尚未付款</td></tr>'
+            bot_table.innerHTML += '<tr><td>' + value.order_user + '</td><td>' + value.food_name + '</td><td>$' + value.order_price + '</td><td ><input type="checkbox" class="bot_pay_checkbox""></td><td class="bot_pay_time" id="cat' + cat_int + '"> <img src="./imgs/for_order_food/cat/kittycry.png" style="width:45px">尚未付款</td></tr>'
             cat_int++;
         }
     });
@@ -132,18 +132,18 @@ function pay_now() {
     bot_pay_time = document.getElementsByClassName("bot_pay_time")
     var Today = new Date();
     now_time = Today.getHours() + "點" + Today.getMinutes() + "分"
-    for ( i = 0; i < bot_pay_checkbox.length; i++) {
+    for (i = 0; i < bot_pay_checkbox.length; i++) {
         if (bot_pay_checkbox[i].checked == true) {
             //將勾選的class改名,就不會重複登記時間
             console.log(i)
-            bot_pay_time[i].innerHTML = '<img src="imgs/cat/klittywrite.png" style="width:45px" id="write_cat_run">';
+            bot_pay_time[i].innerHTML = '<img src="./imgs/for_order_food/cat/klittywrite.png" style="width:45px" id="write_cat_run">';
             var eee = i;
             setTimeout(() => {
-                document.getElementsByClassName("bot_pay_time")[eee].innerHTML ='<img src="./imgs/cat/klittywrite.png" style="width: 45px;" id="write_cat">' + now_time
+                document.getElementsByClassName("bot_pay_time")[eee].innerHTML = '<img src="./imgs/for_order_food/cat/klittywrite.png" style="width: 45px;" id="write_cat">' + now_time
                 bot_pay_checkbox[eee].className = "bot_pay_over"
                 bot_pay_time[eee].className = "bot_pay_time_over"
             }, 2000);
-            
+
         }
     }
 }
