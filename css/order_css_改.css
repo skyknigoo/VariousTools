@@ -100,18 +100,18 @@ body{
 
 @keyframes run {
     0% {
-        margin-left: 0px;
+        margin-left: -80px;
         
     }
     50% {
-        margin-left: 50px;
+        margin-left: 90px;
         transform: translateY(0px);
     }
     75%{
-        transform: translateY(-10px);
+        transform: translateY(-30px);
     }
     100% {
-        margin-left: 0px;
+        margin-left: -80px;
     }
 }
 #line_text_div{
