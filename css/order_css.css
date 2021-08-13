@@ -100,17 +100,45 @@ body{
 
 @keyframes run {
     0% {
-        margin-left: 0px;
+        margin-left: -80px;
         
     }
     50% {
-        margin-left: 50px;
+        margin-left: 90px;
         transform: translateY(0px);
     }
     75%{
-        transform: translateY(-10px);
+        transform: translateY(-30px);
     }
     100% {
-        margin-left: 0px;
+        margin-left: -80px;
     }
+}
+#line_text_div{
+    display: flex;
+}
+
+#in_input {
+    margin: 0px 20px;
+    height: 80px;
+    width: 150px;
+    outline: none;
+}
+
+#line_btn{
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border: 0px;
+    border-radius: 15px;
+    background:rgb(31, 192, 44);
+    color: rgb(255, 255, 255);
+    margin: 20px 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#line_btn:hover{
+    transition:0.5s;
+    transform:rotate(6.28318rad);
 }
