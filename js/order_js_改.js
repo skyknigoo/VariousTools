@@ -37,7 +37,7 @@ function auto_input_btn() {
         }
         //#endregion
         //#region 若點餐人數超過原有的欄位數，則新增到該人數
-        if (in_value.length > order_db2) { //欄位大於點餐數則不用再次增加
+        if (in_value.length > order_db2.length) { //欄位大於點餐數則不用再次增加
             for (x = 0; x < (order_db2.length - 4); x++) {
                 var box = document.querySelector(".total_block");
                 var p = document.createElement('tr');
