@@ -64,10 +64,15 @@
 .gaia-keyboard-inner-container > button {
   float: right;
   font-size: 1.2em;
-  margin: 0.4166em 0.2083em 0 0;
-
+  margin: 12px;
   position: relative;
   z-index: 200;
+  width: 80px;
+  height: 80px;
+  background: #ffe1e6;
+  border: none;
+  box-shadow: 1px 1px 3px #00000091;
+  cursor: pointer;
 }
 
 .gaia-keyboard-inputarea {
