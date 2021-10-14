@@ -1,0 +1,150 @@
+@media screen and (min-width: 768px) {
+  *[hidden] {
+    display: none;
+  }
+
+  #inputarea {
+    min-height: 8em;
+  }
+
+  .navbar select {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  body > .container {
+    margin: 10px 5px;
+  }
+
+  #inputarea {
+    min-height: 3em;
+  }
+
+  .navbar .nav, .navbar .navbar-brand {
+    display: none;
+  }
+
+  .navbar select {
+    margin: 10px 0;
+    display: block;
+  }
+}
+
+input.form-control[type="range"] {
+  border: none;
+  box-shadow: none;
+}
+
+.modal-dialog {
+  height: 100%;
+}
+
+.modal-content {
+  height: 100%;
+
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+}
+
+.modal-body {
+  /* Workaround iOS scrolling perfromance issue */
+  overflow-y: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-footer {
+  margin-top: 0;
+
+  -webkit-flex: 1 0 70px;
+  flex: 1 0 70px;
+}
+
+.checkbox label {
+  display: inline-block;
+  width: 100%;
+}
+
+#config-btn {
+  position: relative;
+  z-index: 1000;
+}
+
+#config-btn > * {
+  pointer-events: none;
+}
+
+#layout-selection-list {
+  font-size: 140%;
+}
+
+#keyboard-app-container {
+  min-width: 100%;
+  height: 100%;
+  width: 1px;
+
+  border: none;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+}
+
+#keyboard-app-container.transitioned-out {
+  -webkit-transform: translateY(100%);
+  transform: translateY(100%);
+}
+
+body.distraction-free > .container > *:not(#inputarea):not(#panel),
+body.distraction-free > *:not(.container) {
+  opacity: 0;
+  -webkit-transition: opacity 3s ease;
+  -ms-transition: opacity 3s ease;
+  transition: opacity 3s ease;
+}
+
+body > .container > *:not(#inputarea):not(#panel),
+body > *:not(.container) {
+  -webkit-transition: opacity 1s ease;
+  -ms-transition: opacity 1s ease;
+  transition: opacity 1s ease;
+}
+
+#inputarea {
+  font-size: 140%;
+  outline: none;
+}
+
+@-webkit-keyframes blink-caret {
+  from, to {
+    border-color: black
+  }
+  50% {
+    border-color: transparent
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: black
+  }
+  50% {
+    border-color: transparent
+  }
+}
+
+#composition {
+  text-decoration: underline;
+}
+
+#inputarea.focused > #composition {
+  border-right: 2px solid;
+
+  -webkit-animation: blink-caret 1s step-end infinite;
+  animation: blink-caret 1s step-end infinite;
+}
