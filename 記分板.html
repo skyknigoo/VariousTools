@@ -19,7 +19,7 @@
         #big_div div {
             text-align: center;
             /* width: 550px; */
-            padding: 100px 200px;
+            margin: 100px 200px;
             cursor: pointer;
             user-select: none;
             font-size: 250px;
@@ -27,12 +27,13 @@
         }
 
         #left_div {
-            background: pink;
+            background: skyblue;
+
         }
 
         #rigth_div {
+            background: pink;
 
-            background: skyblue;
         }
 
         #btn_div {
@@ -52,6 +53,11 @@
             font-size: 30px;
 
         }
+        #winner_text{
+            display: flex;
+            justify-content: space-around;
+            font-size: 30px;
+        }
     </style>
 
 </head>
@@ -62,6 +68,7 @@
         <div id="left_div" onmouseleave="score('blue')">00</div>
         <div id="rigth_div" onmouseleave="score('red')">00</div>
     </div>
+    <div id="winner_text">winner is xxx</div>
     <div id="btn_div">
         <button id="reset_btn" onclick="reset_btn()">Reset</button>
     </div>
@@ -91,6 +98,17 @@
                 }
                 break;
         }
+
+        
+        if(blue >= 21 ){
+            document.getElementById("winner_text").innerText="winner is Blue team"
+        }
+
+        if(red >= 21){
+            document.getElementById("winner_text").innerText= "winner is Red team"
+        }
+
+
     }
     function reset_btn(){
         blue = 0;
