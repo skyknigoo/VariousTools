@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #big_div {
+            height: 90%;
+            width: 100%;
+            background: gray;
+            display: flex;
+            justify-content: space-around;
+
+        }
+
+        #big_div div {
+            text-align: center;
+            /* width: 550px; */
+            padding: 100px 200px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 250px;
+            font-family: monospace;
+        }
+
+        #left_div {
+            background: pink;
+        }
+
+        #rigth_div {
+
+            background: skyblue;
+        }
+
+        #btn_div {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #reset_btn {
+            margin: 50px;
+            border-radius: 10px;
+            outline: none;
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+            width: 120px;
+            height: 70px;
+            font-size: 30px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="big_div">
+        <div id="left_div" onmouseleave="score('blue')">00</div>
+        <div id="rigth_div" onmouseleave="score('red')">00</div>
+    </div>
+    <div id="btn_div">
+        <button id="reset_btn" onclick="reset_btn()">Reset</button>
+    </div>
+</body>
+
+<script>
+    blue = 0;
+    red = 0;
+    function score(team) {
+        switch (team) {
+            case "blue":
+                blue++;
+                if (blue < 10) {
+                    document.getElementById("left_div").innerText = "0" + blue;
+                } else {
+                    document.getElementById("left_div").innerText = blue;
+                }
+                break;
+
+            case "red":
+                red++;
+                if (red < 10) {
+                    document.getElementById("rigth_div").innerText = "0" + red;
+
+                } else {
+                    document.getElementById("rigth_div").innerText = red;
+                }
+                break;
+        }
+    }
+    function reset_btn(){
+        blue = 0;
+        red = 0;
+        document.getElementById("rigth_div").innerText = "00";
+        document.getElementById("left_div").innerText = "00";
+
+    }
+
+</script>
+
+</html>
