@@ -59,7 +59,7 @@
         var m = Today.getMinutes()
         html2canvas(document.querySelector("#capture")).then(function (canvas) {
             a = document.createElement('a');
-            a.href = canvas.toDataURL("image/jpeg", 0.1).replace("image/jpeg", "image/octet-stream");
+            a.href = canvas.toDataURL("image/jpeg", 0.9).replace("image/jpeg", "image/octet-stream");
             a.download = Y + '年' + M + '月' + D +'日'+  H + '時' + m +'分'+ '_條款簽名.jpg';
             a.click();
         });
