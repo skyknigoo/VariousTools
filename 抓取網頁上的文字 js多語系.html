@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="head_div">
+        <h1 class="resx_i18n">title</h1>
+        <span class="resx_i18n">imgs</span>
+        <p class="resx_i18n">con</p>
+        <p class="resx_i18n">plaplapla</p>
+        <span class="resx_i18n">user_name</span><input name='user_name' id='user_name'>
+        <footer class="resx_i18n">footerr</footer>
+    </div>
+    <hr>
+    <div>
+        <div>轉換成text (失敗)</div>
+        <button type="button" onclick="changlag('tw')"> zh_tw</button>
+        <button type="button" onclick="changlag('en')">en_us</button>
+    </div>
+    <hr>
+    <div>
+        <div>轉換成html,連角標籤的都有可能被翻譯(半成功)</div>
+        <button type="button" onclick="changlag('tw2')"> zh_tw2</button>
+        <button type="button" onclick="changlag('en2')">en_us2</button>
+    </div>
+    <hr>
+    <div>
+        <div>利用class標記來翻譯(成功)</div>
+        <button type="button" onclick="changlag('tw3')">zh_tw3</button>
+        <button type="button" onclick="changlag('en3')">en_us3</button>
+    </div>
+    ps:上述這些都只能在渲染上的頁面文字做改變,script裡的文字則無不會改變
+</body>
+
+
+<script>
+    var language_now = 'en'
+    var twlag = [
+        { en: 'title', tw: '標題' },
+        { en: 'imgs', tw: '圖片' },
+        { en: 'con', tw: '內容' },
+        { en: 'plaplapla', tw: '啪啦啪啦啪啦' },
+        { en: 'footerr', tw: '頁腳' },
+        { en: 'test', tw: '測試' },
+        { en: 'user_name', tw: '使用者名稱' }
+    ];
+
+    function test_btn() {
+        alert()
+    }
+
+    all_text = document.getElementById('head_div').innerText
+    all_text_arr = all_text.split('\n')
+    var chang_text = ''
+    var all_html = document.getElementById('head_div').innerHTML
+    var class_change = document.getElementsByClassName('resx_i18n')
+    function changlag(lag) {
+
+        switch (lag) {
+            case 'tw':
+                for (x = 0; x < all_text_arr.length; x++) {
+                    twlag.forEach(item => {
+                        if (all_text_arr[x] == item.en) {
+                            all_text_arr[x] = item.tw
+                        }
+                    }
+                    )
+                }
+                chang_text = all_text_arr.join('\n')
+                document.getElementById('head_div').innerText = chang_text
+                break;
+            case 'us':
+                for (x = 0; x < all_text_arr.length; x++) {
+                    twlag.forEach(item => {
+                        if (all_text_arr[x] == item.tw) {
+                            all_text_arr[x] = item.en
+                        }
+                    }
+                    )
+                }
+                chang_text = all_text_arr.join('\n')
+                document.getElementById('head_div').innerText = chang_text
+                break;
+            case 'tw2':
+                twlag.forEach(key => {
+                    if (all_html.indexOf(key.en) > 0) { all_html = all_html.replace(key.en, key.tw) } else { }
+                });
+                document.getElementById('head_div').innerHTML = all_html
+                break;
+            case 'en2':
+                twlag.forEach(key => {
+                    if (all_html.indexOf(key.tw) > 0) { all_html = all_html.replace(key.tw, key.en) } else { }
+                });
+                document.getElementById('head_div').innerHTML = all_html
+                break;
+
+            case 'tw3':
+                twlag.forEach(key => {
+                    for (x = 0; x < class_change.length; x++) {
+                        if (class_change[x].innerText == key.en) { class_change[x].innerText = key.tw } else { }
+                    }
+                });
+                break;
+            case 'en3':
+                twlag.forEach(key => {
+                    for (x = 0; x < class_change.length; x++) {
+                        if (class_change[x].innerText == key.tw) { class_change[x].innerText = key.en } else { }
+                    }
+                });
+                break;
+
+        }
+        // console.log(all_text_arr)
+
+
+    }
+
+
+</script>
+
+
+</html>
