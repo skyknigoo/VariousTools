@@ -8,9 +8,9 @@
     <title>Document</title>
     <style>
         #big_div {
-            height: 90%;
+            height: 320px;
             width: 100%;
-            background: gray;
+            background: rgb(68, 68, 68);
             display: flex;
             justify-content: space-around;
 
@@ -18,11 +18,11 @@
 
         #big_div div {
             text-align: center;
-            /* width: 550px; */
-            margin: 100px 200px;
+            width: 100%;
+            height: 218px;
             cursor: pointer;
             user-select: none;
-            font-size: 250px;
+            font-size: 150px;
             font-family: monospace;
         }
 
@@ -63,12 +63,21 @@
             font-weight: bold;
             padding: 30px;
         }
-        .winner_red{
-            background: pink !important;;
-        }
-        .winner_blue{
-            background:skyblue !important;
 
+        .winner_red {
+            background: pink !important;
+            ;
+        }
+
+        .winner_blue {
+            background: skyblue !important;
+
+        }
+
+        .often {
+            font-size: 80px !important;
+            font-weight: bold;
+            color: rgb(255, 174, 0);
         }
     </style>
 
@@ -77,10 +86,23 @@
 <body>
 
     <div id="big_div">
-        <div id="blue" onmouseleave="score('blue')">00</div>
-        <div id="red" onmouseleave="score('red')">00</div>
+        <div>
+            <div id="blue" onclick="score('blue')">00
+
+            </div>
+            <div class="often" id="often_blue">
+
+            </div>
+        </div>
+        <div>
+            <div id="red" onclick="score('red')">00
+            </div>
+            <div class="often" id="often_red">
+
+            </div>
+        </div>
     </div>
-    <div id="winner_text" >New Game</div>
+    <!-- <div id="winner_text" >New Game</div> -->
     <div id="btn_div">
         <button id="reset_btn" onclick="reset_btn()">Reset</button>
     </div>
@@ -90,19 +112,58 @@
     //正常記分
     blue_score = 0;
     red_score = 0;
+
     //連續得分計算
     continuous_score_blue = 0;
     continuous_score_red = 0;
     //是否延長
     extend = false;
     function score(team) {
+        console.log("觸發")
+
         //得分++
         switch (team) {
             case "blue":
                 blue_score++;
+                document.getElementById("often_red").innerText = "";
+
+                //若連續得分則要上一場發球人換邊發
+                if (blue_score % 2 != 0) {
+                    continuous_score_blue++
+                    continuous_score_red = 0;
+                    if (continuous_score_blue > 1) {
+                        document.getElementById("often_blue").innerText = "換左";
+                    }
+                } else {
+                    continuous_score_blue++
+                    continuous_score_red = 0;
+                    if (continuous_score_blue > 1) {
+                        document.getElementById("often_blue").innerText = "換右";
+                    }
+                }
                 break;
             case "red":
                 red_score++;
+                document.getElementById("often_blue").innerText = "";
+
+                //若連續得分則要上一場發球人換邊發
+                if (red_score % 2 != 0) {
+                    continuous_score_red++;
+                    continuous_score_blue = 0;
+                    if (continuous_score_red > 1) {
+                        document.getElementById("often_red").innerText = "換左";
+
+                    }
+                } else {
+                    continuous_score_red++;
+                    continuous_score_blue = 0;
+
+                    if (continuous_score_red > 1) {
+                        document.getElementById("often_red").innerText = "換右";
+
+                    }
+
+                }
                 break;
         }
         //只是在單位數時多一個0 顯示格式
@@ -114,20 +175,25 @@
         //得分顯示
         document.getElementById(team).innerText = addzero + (team == "blue" ? blue_score : red_score);
 
+
+
+
+
+
         //若雙方都20分時,啟動延長賽
         //若沒有都20分時,誰先得21誰獲勝
         if (red_score >= 20 && blue_score >= 20) {
             extend = true;
         } else if (red_score == 21 | blue_score == 21) {
             document.getElementById("winner_text").innerText = "Winner is " + team + " Team"
-            document.getElementById("winner_text").classList += "winner_"+team
+            document.getElementById("winner_text").classList += "winner_" + team
         }
         //啟動延長賽囉
         if (extend) {
             //非無限延長 30分為上限
             if (blue_score == 30 | red_score == 30) {
                 document.getElementById("winner_text").innerText = team + "Team Got 30 Score,Winner is " + team + " Team"
-                document.getElementById("winner_text").classList += "winner_"+team
+                document.getElementById("winner_text").classList += "winner_" + team
 
                 return;
             }
@@ -143,23 +209,25 @@
             //連續得兩分則獲勝
             if (continuous_score_blue == 2 | continuous_score_red == 2) {
                 document.getElementById("winner_text").innerText = "Winner is " + team + " Team"
-                document.getElementById("winner_text").classList += "winner_"+team
+                document.getElementById("winner_text").classList += "winner_" + team
 
             }
 
         }
 
     }
+
     //重置按鈕
     function reset_btn() {
         blue_score = 0;
         red_score = 0;
-        continuous_score_blue= 0;
-        continuous_score_red=0;
         document.getElementById("blue").innerText = "00";
         document.getElementById("red").innerText = "00";
-        document.getElementById("winner_text").innerText = "New Game"
-        document.getElementById("winner_text").classList = ""
+        // document.getElementById("winner_text").innerText = "New Game"
+        // document.getElementById("winner_text").classList = ""
+        document.getElementById("often_blue").innerText = "";
+        document.getElementById("often_red").innerText = "";
+
 
     }
 
