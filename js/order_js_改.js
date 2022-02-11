@@ -21,11 +21,16 @@ function order_user_in_options(newd) {  //將預存好的arry[user_name]帶入ht
 //#region 將LINE訊息貼上來 點擊按鈕將下方欄位填入資料 //
 function auto_input_btn() {
     if (document.getElementById("in_input").value == '') {
-        alert('請放入訊息好嗎?')
+        Swal.fire(
+            '東西呢?',
+            '請放入訊息好嗎?',
+            'question'
+          )
         return
     }
     try {
         order_db2 = [];
+        console.log("🚀呼叫 => order_db2", order_db2)
         count = document.getElementById('in_input').value.split('\n').length - 1 //抓取斷行的次數 (知道有幾個人點餐)
         in_value = document.getElementById("in_input").value;
         food_name = document.getElementsByClassName("food_name")
@@ -75,7 +80,12 @@ function auto_input_btn() {
         //#endregion
         go()
     } catch (err) {
-        alert('格式錯誤吧?看一下訊息格式')
+        Swal.fire('','error')
+        Swal.fire(
+            'BB錯誤',
+            '格式錯誤吧?看一下訊息格式',
+            'error'
+          )
     }
 }
 
@@ -84,6 +94,7 @@ function go() {
     total = 0;
     table_input_Floor = 0;
     newarr = "";
+    var food_number = 0 
     var order_db = [];
     var result = {};
     table_top_div = document.getElementById("table_top_div")
@@ -93,6 +104,8 @@ function go() {
     bot_table = document.getElementById("bot_table")
     back_to_input_food_name = document.getElementsByClassName("sorted_food")
     back_to_ipunt_food_amount = document.getElementsByClassName("sorted_amount")
+    back_to_input_food_number = document.getElementById("sorted_number")
+    
     //#endregion //
     //#region  10.先建立物件需要數量 20.再將訂餐table的點餐資訊存到obj裡面 //
     if (order_db.length != order_user.length) {
@@ -155,13 +168,19 @@ function go() {
     for (x = 0; x < (Object.keys(result).length); x++) {
         document.getElementById("order_sorted_table").innerHTML += '<tr><td><img src="./imgs/for_order_food/number/00' + (x + 1) + '-number.png" style="width:35px"></td><td><input type="text" class="sorted_food" name="sorted_food" value="" disabled ></td><td><input type="text" class="sorted_amount" name="sorted_amount" value="" disabled style="width:80px;text-align: center;"></td></tr>'
     }
+    //22-02-11 新增共有幾份餐點
+    document.getElementById("order_sorted_table").innerHTML += '<tr><td><img src="./imgs/for_order_food/number/all.png" style="width:35px"></td><td></td><td><input type="text" id="sorted_number" value=""  disabled style="width:80px;text-align: center;"></td></tr>'
     //將資料丟到右上角訂餐系統上
     for (x = 0; x < (Object.keys(result).length); x++) {
         if (Object.keys(result)[x] != "") {
             back_to_input_food_name[x].value += (Object.keys(result)[x])
             back_to_ipunt_food_amount[x].value += (Object.values(result)[x])
+            food_number += parseInt((Object.values(result)[x]))       
         }
     }
+        //22-02-11 新增共有幾份餐點
+    document.getElementById("sorted_number").value = food_number
+
     //#endregion //
     //#region  將左上點餐系統的小計 計算到total//
     for (x = 0; x < food_price_all.length; x++) { //計算餐點總價格
