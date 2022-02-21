@@ -7,10 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            margin: 0 0;
+        }
+
         #big_div {
             height: 320px;
             width: 100%;
-            background: rgb(68, 68, 68);
+            background: rgb(12, 12, 12);
             display: flex;
             justify-content: space-around;
 
@@ -19,73 +23,99 @@
         #big_div div {
             text-align: center;
             width: 100%;
-            height: 218px;
             cursor: pointer;
             user-select: none;
-            font-size: 150px;
+            font-size: 250px;
+            /* font-weight: bold; */
             font-family: monospace;
+            color: white;
+            line-height: 200px;
         }
 
         #blue {
-            background: skyblue;
-
+            background: rgb(46 182 255);
+            height: 214px;
         }
 
         #red {
-            background: pink;
+            background: rgb(255 79 66);
+            height: 214px;
 
         }
 
         #btn_div {
-            display: flex;
-            justify-content: space-around;
+            position: fixed;
+            left: 50%;
+            margin-left: -25px;
         }
 
         #reset_btn {
-            margin: 50px;
+            /* margin: 50px; */
             border-radius: 10px;
             outline: none;
             background-color: #0d6efd;
             border-color: #0d6efd;
             color: white;
-            width: 120px;
-            height: 70px;
-            font-size: 30px;
+            width: 50px;
+            height: 40px;
+            font-size: 20px;
+
 
         }
 
         #winner_text {
-            background: rgb(135, 202, 135);
+            top: 213px;
+            position: fixed;
+            background: rgb(0, 0, 0);
+            color: white;
             display: flex;
             justify-content: space-around;
-            font-size: 50px;
+            font-size: 90px;
             font-family: sans-serif;
             font-weight: bold;
-            padding: 30px;
+            /* padding: 25px; */
+            height: 107px;
+            line-height: 110px;
+            /* left: 50%; */
+            text-align: center;
+            width: 100%;
+            /* margin-left: -70px;*/
+            opacity: 0;
         }
 
         .winner_red {
-            background: pink !important;
+            background: rgb(255 79 66) !important;
             ;
         }
 
         .winner_blue {
-            background: skyblue !important;
+            background: rgb(46 182 255) !important;
 
         }
 
         .often {
-            font-size: 80px !important;
+            font-size: 100px !important;
             font-weight: bold;
-            color: rgb(255, 174, 0);
+            height: 100px;
+            line-height: 119px !important;
         }
     </style>
 
 </head>
 
 <body>
-
+    <div id="btn_div">
+        <button id="reset_btn" onclick="reset_btn()">R</button>
+    </div>
     <div id="big_div">
+        <div>
+            <div id="red" onclick="score('red')">00
+            </div>
+            <div class="often" id="often_red">
+
+            </div>
+        </div>
+
         <div>
             <div id="blue" onclick="score('blue')">00
 
@@ -94,18 +124,9 @@
 
             </div>
         </div>
-        <div>
-            <div id="red" onclick="score('red')">00
-            </div>
-            <div class="often" id="often_red">
 
-            </div>
-        </div>
     </div>
-    <!-- <div id="winner_text" >New Game</div> -->
-    <div id="btn_div">
-        <button id="reset_btn" onclick="reset_btn()">Reset</button>
-    </div>
+    <div id="winner_text">New Game</div>
 </body>
 
 <script>
@@ -132,13 +153,13 @@
                     continuous_score_blue++
                     continuous_score_red = 0;
                     if (continuous_score_blue > 1) {
-                        document.getElementById("often_blue").innerText = "換左";
+                        document.getElementById("often_blue").innerHTML = "左&emsp;&emsp;&emsp;";
                     }
                 } else {
                     continuous_score_blue++
                     continuous_score_red = 0;
                     if (continuous_score_blue > 1) {
-                        document.getElementById("often_blue").innerText = "換右";
+                        document.getElementById("often_blue").innerHTML = "&emsp;&emsp;&emsp;右";
                     }
                 }
                 break;
@@ -151,7 +172,7 @@
                     continuous_score_red++;
                     continuous_score_blue = 0;
                     if (continuous_score_red > 1) {
-                        document.getElementById("often_red").innerText = "換左";
+                        document.getElementById("often_red").innerHTML = "左&emsp;&emsp;&emsp;";
 
                     }
                 } else {
@@ -159,7 +180,7 @@
                     continuous_score_blue = 0;
 
                     if (continuous_score_red > 1) {
-                        document.getElementById("often_red").innerText = "換右";
+                        document.getElementById("often_red").innerHTML = "&emsp;&emsp;&emsp;右";
 
                     }
 
@@ -185,6 +206,7 @@
         if (red_score >= 20 && blue_score >= 20) {
             extend = true;
         } else if (red_score == 21 | blue_score == 21) {
+            document.getElementById("winner_text").style.opacity = 1;
             document.getElementById("winner_text").innerText = "Winner is " + team + " Team"
             document.getElementById("winner_text").classList += "winner_" + team
         }
