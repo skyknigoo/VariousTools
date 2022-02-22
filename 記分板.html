@@ -4,15 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
     <title>小蟲碼 - 記分板</title>
+    <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
     <style>
         body {
             margin: 0 0;
         }
 
         #big_div {
-            height: 320px;
+            height: 380px;
             width: 100%;
             background: rgb(12, 12, 12);
             display: flex;
@@ -25,28 +27,79 @@
             width: 100%;
             cursor: pointer;
             user-select: none;
-            font-size: 250px;
+            font-size: 300px;
             /* font-weight: bold; */
             font-family: monospace;
             color: white;
-            line-height: 200px;
+            line-height: 240px;
         }
 
         #blue {
             background: rgb(46 182 255);
-            height: 214px;
+            height: 250px;
         }
 
         #red {
             background: rgb(255 79 66);
-            height: 214px;
+            height: 250px;
 
+        }
+
+        #set_div {
+            position: fixed;
+            background: #f1afaa;
+            width: 100%;
+            height: 100%;
+            padding: 30px 130px;
+            z-index: 999;
+            display: none;
+            /* opacity: 0; */
+
+        }
+
+        #set_div label {
+            font-size: 20px
+        }
+
+        #blue_player_div input {
+            font-size: 20px;
+            width: 200px;
+            height: 30px;
+        }
+
+        #red_player_div input {
+            font-size: 20px;
+            width: 200px;
+            height: 30px;
+        }
+
+        #set_save_btn {
+            position: fixed;
+            left: 50%;
+            bottom: 5%;
+            margin-left: -90px;
+            border-radius: 10px;
+            outline: none;
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+            width: 150px;
+            height: 40px;
+            font-size: 20px;
         }
 
         #btn_div {
             position: fixed;
             left: 50%;
             margin-left: -25px;
+        }
+
+        #btn_div2 {
+            position: fixed;
+            bottom: 0.5%;
+            left: 50%;
+            margin-left: -25px;
+            z-index: 10;
         }
 
         #reset_btn {
@@ -60,8 +113,20 @@
             height: 40px;
             font-size: 20px;
 
-
         }
+
+        #set_btn {
+            /* margin: 50px; */
+            border-radius: 10px;
+            outline: none;
+            background-color: #000000;
+            border-color: #7b7b7b;
+            color: white;
+            width: 50px;
+            height: 40px;
+            font-size: 20px;
+        }
+
 
         #winner_text {
             top: 213px;
@@ -80,17 +145,15 @@
             text-align: center;
             width: 100%;
             /* margin-left: -70px;*/
-            opacity: 0;
+            display: none;
         }
 
         .winner_red {
             background: rgb(255 79 66) !important;
-            ;
         }
 
         .winner_blue {
             background: rgb(46 182 255) !important;
-
         }
 
         .often {
@@ -104,7 +167,6 @@
             position: fixed;
             z-index: 99;
             top: 60%;
-
         }
 
         #less_red {
@@ -121,7 +183,6 @@
         #btn_blue_less {
             position: fixed;
             z-index: 99;
-
             top: 60%;
             left: 90.7%;
         }
@@ -144,30 +205,48 @@
     <div id="btn_div">
         <button id="reset_btn" onclick="reset_btn()">R</button>
     </div>
+    <div id="btn_div2">
+        <button id="set_btn" onclick="open_set_div()">S</button>
+    </div>
     <div id="btn_red_less">
         <button id="less_red" onclick="less_btn('red')">-1</button>
     </div>
     <div id="btn_blue_less">
         <button id="less_blue" onclick="less_btn('blue')">-1</button>
     </div>
+
+    <div id="set_div">
+        <label><input id="Voive_on_ff" type="checkbox" style="width: 16px; height: 16px;">是否使用語音輔助(預設為關)</label>
+
+        <div id="red_player_div">
+            <h3>紅隊</h3>
+            <label><input id="red_left_player" type="text" placeholder="紅隊左選手" value=""></label>
+            <label><input id="red_right_player" type="text" placeholder="紅隊右選手" value=""></label>
+        </div>
+        <div id="blue_player_div">
+
+            <h3>藍隊</h3>
+            <label><input id="blue_left_player" type="text" placeholder="藍隊左選手" value=""></label>
+            <label><input id="blue_right_player" type="text" placeholder="藍隊右選手" value=""></label>
+        </div>
+
+        <button id="set_save_btn" type="button" onclick="save_set()">儲存設定</button>
+    </div>
+
     <div id="big_div">
-        <div >
-            <div id="red" onclick="score('red')" >00
+        <div>
+            <div id="red" onclick="score('red')">00
             </div>
             <div class="often" id="often_red">
-
             </div>
         </div>
 
         <div>
             <div id="blue" onclick="score('blue')">00
-
             </div>
             <div class="often" id="often_blue">
-
             </div>
         </div>
-
     </div>
     <div id="winner_text">New Game</div>
 </body>
@@ -175,16 +254,25 @@
 
 
 <script>
+    //語音設定
+    responsiveVoice.setDefaultVoice("Chinese Female");
+    //是否使用語音
+    useVoive = true;
+    red_left_now = "";
+    red_right_now = "";
+    blue_left_now = "";
+    blue_right_now = "";
+
+
     //正常記分
     red_score = 0;
     blue_score = 0;
 
     //連續得分計算
-    continuous_score_red = 0;
-    continuous_score_blue = 0;
+    continuous_score_red = 1;
+    continuous_score_blue = 1;
     //對手是否為連續得分狀態(扣分用 要還原連續得分狀態)
     continuous_state_red = false;
-    continuous_state_red_score = 0;
     continuous_state_blue = false;
     //是否延長
     extend = false;
@@ -192,32 +280,83 @@
     extend_score_blue = 0;
     //勝利隊伍產生 再按一次按鈕重置用
     winner_team = false;
+
+
+
     //加分功能
     //加分 顯示分數 連續得分則換邊 延長賽 獲勝顯示 
     function score(team) {
+
+        //勝利隊伍產生後 再按一次藍或紅隊加分即可重置比賽
+        if (winner_team) {
+            reset_btn()
+            return;
+        }
+
         //得分++
         switch (team) {
             case "red":
+
                 //被誤加分 扣分用 回連續得分狀態紀錄 紀錄連續得幾分了
                 //該隊被誤加分時 紀錄對面當時是否連續得分狀態 是的話紀錄true
                 if (continuous_score_blue > 1) {
                     continuous_state_red = false;
                     continuous_state_blue = true;
                 }
+                //#region 加分後開始判斷 
+                //1.是否連續得分 換邊提示
+                //2.是否先得21 (不進入延長)
+                //3.是否搶2分 (進入延長)
+                //4.是否先得30 (進入延長)
+                //#endregion
 
                 red_score++;
                 document.getElementById("often_blue").innerText = "";
+                voive_hint(team, "紅隊得分,現在分數" + red_score);
+                //顯示分數
+                print_score(team);
 
-                //若連續得分則要上一場發球人換邊發
-                continuous_score_red++;
-                continuous_score_blue = 0;
-                if (continuous_score_red > 1 && red_score % 2 != 0) {
-                    document.getElementById("often_red").innerHTML = "左&emsp;&emsp;&emsp;";
-                }
-                if (continuous_score_red > 1 && red_score % 2 == 0) {
-                    document.getElementById("often_red").innerHTML = "&emsp;&emsp;&emsp;右";
-                }
+                //若雙方都20分時,啟動延長賽
+                //若沒有都20分時,誰先得21誰獲勝
+                isExtend_Win(team);
 
+                //啟動延長賽囉
+                Extend_start(team);
+
+                //換邊提示
+                //若連續得分則要上一回發球人換邊發
+                if (!winner_team) {
+                    continuous_score_red++;
+                    continuous_score_blue = 0;
+
+
+                    if (continuous_score_red > 1 && red_score % 2 != 0) {
+                        setTimeout(function () {
+                            //交換位置
+                            holddown = red_left_now
+                            red_left_now = red_right_now;
+                            red_right_now = holddown;
+                            if (red_score == 1) {
+                                voive_hint(team, red_left_now + "換到左邊發球")
+                            } else {
+                                voive_hint(team, "連續得分," + red_left_now + "換到左邊發球")
+                            }
+                        }, 3000);
+
+                        document.getElementById("often_red").innerHTML = "左&emsp;&emsp;&emsp;";
+                    }
+                    if (continuous_score_red > 1 && red_score % 2 == 0) {
+                        //交換位置
+                        holddown = red_right_now
+                        red_right_now = red_left_now;
+                        red_left_now = holddown;
+                        setTimeout(function () {
+                            voive_hint(team, "連續得分," + red_right_now + "換到右邊發球")
+                        }, 3000);
+
+                        document.getElementById("often_red").innerHTML = "&emsp;&emsp;&emsp;右";
+                    }
+                }
                 break;
             case "blue":
                 //被誤加分 扣分用 回連續得分狀態紀錄 紀錄連續得幾分了
@@ -229,39 +368,79 @@
 
                 blue_score++;
                 document.getElementById("often_red").innerText = "";
+                voive_hint(team, "藍隊得分,現在分數" + blue_score)
+                //顯示分數
+                print_score(team);
+
+                //若雙方都20分時,啟動延長賽
+                //若沒有都20分時,誰先得21誰獲勝
+                isExtend_Win(team);
+
+                //啟動延長賽囉
+                Extend_start(team);
 
                 //若連續得分則要上一場發球人換邊發
-                continuous_score_blue++
-                continuous_score_red = 0;
-                if (continuous_score_blue > 1 && blue_score % 2 != 0) {
-                    document.getElementById("often_blue").innerHTML = "左&emsp;&emsp;&emsp;";
-                }
-                if (continuous_score_blue > 1 && blue_score % 2 == 0) {
-                    document.getElementById("often_blue").innerHTML = "&emsp;&emsp;&emsp;右";
+                if (!winner_team) {
+                    continuous_score_blue++
+                    continuous_score_red = 0;
+                    if (continuous_score_blue > 1 && blue_score % 2 != 0) {
+                        //交換位置
+                        holddown = blue_left_now;
+                        blue_left_now = blue_right_now;
+                        blue_right_now = holddown;
+                        setTimeout(function () {
+                            if (blue_score == 1) {
+                                voive_hint(team, blue_left_now + "換到左邊發球")
+                            } else {
+                                voive_hint(team, "連續得分," + blue_left_now + "換到左邊發球")
+                            }
+                        }, 3000);
+                        document.getElementById("often_blue").innerHTML = "左&emsp;&emsp;&emsp;";
+                    }
+                    if (continuous_score_blue > 1 && blue_score % 2 == 0) {
+                        //交換位置
+                        holddown = blue_right_now;
+                        blue_right_now = blue_left_now;
+                        blue_left_now = holddown;
+                        setTimeout(function () {
+                            voive_hint(team, "連續得分," + blue_right_now + "換到右邊發球")
+                        }, 3000);
+                        document.getElementById("often_blue").innerHTML = "&emsp;&emsp;&emsp;右";
+                    }
                 }
                 break;
-
         }
-        //顯示分數
-        print_score(team);
 
-        //若雙方都20分時,啟動延長賽
-        //若沒有都20分時,誰先得21誰獲勝
+    }
+
+    //若雙方都20分時,啟動延長賽
+    //若沒有都20分時,誰先得21誰獲勝
+    function isExtend_Win(team) {
         if (red_score >= 20 && blue_score >= 20) {
             extend = true;
         } else if (red_score == 21 | blue_score == 21) {
             winner_is(team)
             winner_team = true;
+            setTimeout(function () {
+                voive_hint(team, "贏得勝利")
+
+            }, 3000);
             return;
         }
+    }
 
-        //啟動延長賽囉
+    //啟動延長賽囉
+    function Extend_start(team) {
         if (extend) {
             console.log("啟動延長賽")
             //非無限延長 30分為上限
             if (blue_score == 30 | red_score == 30) {
                 winner_is(team)
                 winner_team = true;
+                setTimeout(function () {
+
+                    voive_hint(team, "搶先30分贏得勝利")
+                }, 3000);
                 return;
             }
             //連續得分計算,EX:(某隊得分:另一隊歸零計算)
@@ -277,13 +456,11 @@
             if (extend_score_blue == 2 | extend_score_red == 2) {
                 winner_is(team)
                 winner_team = true;
+                setTimeout(function () {
+                    voive_hint(team, "贏得延長賽勝利")
+                }, 3000);
                 return;
             }
-        }
-
-        //勝利隊伍產生後 再按一次藍或紅隊加分即可重置比賽
-        if (winner_team) {
-            reset_btn()
         }
     }
 
@@ -291,8 +468,8 @@
     //被誤加分 扣分用 回連續得分狀態紀錄 紀錄連續得幾分了
     //該隊被誤加分時 紀錄對面當時是否連續得分狀態 是的話紀錄true
     function less_btn(team) {
-        document.getElementById("often_blue").innerHTML  = "";
-        document.getElementById("often_red").innerHTML  = "";
+        document.getElementById("often_blue").innerHTML = "";
+        document.getElementById("often_red").innerHTML = "";
 
         switch (team) {
             case "red":
@@ -350,7 +527,8 @@
 
     //勝利隊伍顯示
     function winner_is(team) {
-        document.getElementById("winner_text").style.opacity = 1;
+        document.getElementById("winner_text").style.display = "block";
+        document.getElementById("winner_text").style.zIndex = 99;
         document.getElementById("winner_text").innerText = "Winner is " + team + " Team"
         document.getElementById("winner_text").classList += "winner_" + team
     }
@@ -367,14 +545,40 @@
         document.getElementById(team).innerText = addzero + (team == "blue" ? blue_score : red_score);
     }
 
+    //google語音 提示 得分 換邊 獲勝
+    function voive_hint(team, textt) {
 
+        if (useVoive) {
+            switch (team) {
+                case ("red"):
+                    //若還沒獲勝 則喊分數跟提示換邊
+                    //獲勝分數到達 則不喊分跟提示換邊
+
+
+                    // if(extend && red_score == 20 && blue_score == 20) {responsiveVoice.speak("雙方來到20分,進入延長賽");};
+
+
+                    if (!winner_team) { responsiveVoice.speak(textt); }
+                    if (winner_team) { responsiveVoice.speak("紅隊" + textt); }
+
+                    break;
+
+                case ("blue"):
+                    if (!winner_team) { responsiveVoice.speak(textt); }
+                    if (winner_team) { responsiveVoice.speak("藍隊" + textt); }
+
+                    break;
+            }
+        }
+
+    }
     //重置按鈕
     function reset_btn() {
         //所有暫存分數 歸零
         blue_score = 0;
         red_score = 0;
-        continuous_score_blue = 0;
-        continuous_score_red = 0;
+        continuous_score_blue = 1;
+        continuous_score_red = 1;
         extend = false;
         extend_score_blue = 0;
         extend_score_red = 0;
@@ -383,8 +587,36 @@
         document.getElementById("red").innerText = "00";
         document.getElementById("often_blue").innerText = "";
         document.getElementById("often_red").innerText = "";
-        document.getElementById("winner_text").style.opacity = 0;
+        document.getElementById("winner_text").style.display = "none";
         document.getElementById("winner_text").classList = "";
+
+    }
+
+    //打開設置畫面
+    function open_set_div() {
+        document.getElementById("set_div").style.display = "block";
+    }
+    //儲存按鈕
+    function save_set() {
+        document.getElementById("set_div").style.display = "none";
+
+        on_off = document.getElementById("Voive_on_ff")
+
+        if (on_off.checked) {
+            useVoive = true;
+
+            console.log("啟用語音提示")
+            red_left_now = document.getElementById("red_left_player").value;
+            red_right_now = document.getElementById("red_right_player").value;
+            blue_left_now = document.getElementById("blue_left_player").value;
+            blue_right_now = document.getElementById("blue_right_player").value;
+
+
+        } else {
+            useVoive = false;
+            console.log("關閉語音提示")
+        }
+
 
     }
 
