@@ -79,7 +79,7 @@ body{
 
 /* 右上點餐使用詳情 */
 #order_sorted_table input{
-    width: 150px;
+    width: 300px;
     font-size: 20px;
     font-weight: bold;
     
