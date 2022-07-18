@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>產生密碼(可選英,數,特殊符號)</title>
+    <script src="js/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="css/sweetalert2.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: rgb(206, 206, 206);
+        }
+
+        .out_div {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        #top_title div {
+            color: white;
+            text-shadow: black 1px 1px 1px;
+            border-radius: 30px;
+            margin: 10px;
+            position: relative;
+            margin: 0 auto;
+            text-align: center;
+            width: 450px;
+            height: auto;
+            line-height: auto;
+            background-color: rgb(255, 130, 28);
+        }
+
+        #create_div {
+            width: 500px;
+        }
+
+        #save_div {
+            width: 900px;
+        }
+
+        #copPsw {
+            border-radius: 10px;
+            border: 0px;
+            background: rgb(101, 192, 252);
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 15px;
+            width: 100px;
+            transition: 0.5s;
+
+        }
+
+        #copPsw:hover {
+            border-radius: 10px;
+            border: 0px;
+            background: rgb(0, 94, 156);
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 15px;
+            width: 100px;
+            transition: 0.2s;
+
+        }
+
+        #createPsw {
+            border-radius: 10px;
+            border: 0px;
+            background: rgb(255, 71, 117);
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 15px;
+            width: 100px;
+            transition: 0.2s;
+        }
+
+        #createPsw:active {
+            border-radius: 10px;
+            border: 0px;
+            background: rgb(153, 11, 11);
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 15px;
+            width: 100px;
+        }
+
+        #top_table {
+            /* border: 1px solid #000; */
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+
+        #Retable {
+            /* border: 1px solid #000; */
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 id="top_title">
+        <div>產生密碼(英文,數字,特殊符號)<br>
+            <small style="font-size: 14px;font-family: monospace;">
+                Generate password (English, numbers, special symbols)
+            </small>
+        </div>
+    </h2>
+    <br>
+    <div class="out_div">
+        <div id="create_div">
+            <div style="border-top: 1px solid; border-bottom: 1px solid;">
+                <label><input type="radio" name="en" class="ckbox " value="BwSw" checked>英文大小寫 (En Upper and Lower)
+                </label><br>
+                <label><input type="radio" name="en" class="ckbox " value="Bw">英文大寫 (En Upper case)</label><br>
+                <label><input type="radio" name="en" class="ckbox " value="Sw">英文小寫 (En Lower case)</label><br>
+                <label><input type="radio" name="en" class="ckbox " value="">不使用英文 English is not used</label>
+            </div>
+            <label><input type="checkbox" class="ckbox" value="m" checked>數字 Number</label><br>
+            <label><input type="checkbox" class="ckbox" value="s">特殊符號 Specialsymbols</label><br><br>
+
+            <span>密碼長度： </span><input type="number" value="10" id="ps1L" style="width: 50px;">(長度要求:3~50)<br>
+            <span>Password length (Length requirement: 3~50)<br>
+                <button id="createPsw" type="button" onclick="new_ps()">產生(Create)</button>
+
+                <hr>
+                密碼(Psw)：<input type="text" id="ps1" style="width: 400px;"> <br>
+                組合(Combination)：<span id="com"></span> <br>
+
+                <button id="copPsw" type="button">複製密碼(Copy)</button>
+        </div>
+
+        <div id="save_div">
+            <h4>複製記錄 Copy records <button onclick="delRe( )">刪除記錄(Delete records)</button></h4>
+            <table id="top_table">
+                <tr>
+                    <th style="width: 420px; background: rgb(255, 179, 135);">密碼(Password)</th>
+                    <th style="width: 180px;background: rgb(141, 255, 175);">時間(Time)</th>
+                    <th style="width: 100px;background: rgb(255, 136, 136);">組合(Combination)</th>
+                </tr>
+
+
+            </table>
+            <table id="Retable">
+
+            </table>
+
+        </div>
+    </div>
+
+
+
+</body>
+<script>
+    function Sww(text, icon) {
+        Swal.fire({
+            position: 'top',
+            icon: icon,
+            title: text,
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+</script>
+
+<script>
+
+
+    //複製密碼
+    const select = (DOM) => document.querySelector(DOM);
+
+    var STtmp = [];
+    if (localStorage.getItem("STtmp")) {
+        STtmp = JSON.parse(localStorage.getItem("STtmp"));
+    }
+    select('#copPsw').addEventListener('click', (e) => {
+        var time = new Date();
+
+        var psw = document.getElementById("ps1").value;
+        if (psw != "") {
+
+
+            const inputText = document.querySelector('#ps1');
+
+            inputText.select();
+            document.execCommand('copy');
+
+
+            //組合
+            co = document.getElementById("com").innerText;
+            //本次需記錄的資料
+            let Ntmp = {
+                psw: ("" + psw),
+                datetime: time.toLocaleString(),
+                com: co
+            };
+            //將資料新增至內容並存進localStorage
+            STtmp.push(Ntmp);
+            localStorage.setItem("STtmp", JSON.stringify(STtmp));
+
+            RecordPSW()
+
+            text = '密碼複製至剪貼簿<br>Copy password to clipboard:<br>' + psw
+
+            Sww(text, "success")
+        } else {
+
+            Sww("請建立密碼<br> Please create a password", "error")
+
+        }
+
+    })
+
+
+</script>
+<script>
+    //下方為依照條件建立密碼
+
+    var Bw = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    var Sw = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    var m = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    var s = ['!', "@", '#', '$', '%', '^', '&', '*', '+', '-', '=', '_']
+
+    function new_ps() {
+        L = document.getElementById("ps1L").value
+        //長度檢查
+        if (L < 3 || L > 99) {
+            Sww("長度需求3 ~ 50<br>Length requirement: 3~50", "error")
+
+            document.getElementById("ps1L").value = 3
+            return false
+        }
+        //宣告
+        var N_psw = ''
+        var need_arry = []
+        var showarry = []
+
+        //將需求列入陣列
+        ckcls = document.getElementsByClassName("ckbox")
+
+        for (var i = 0; i < ckcls.length; i++) {
+            if (ckcls[i].checked && ckcls[i].value != "") {
+                need_arry.push(ckcls[i].value)
+                switch (ckcls[i].value) {
+                    case "BwSw":
+                        showarry.push("英文大小寫(En Upper and Lower)")
+                        break;
+                    case "Bw":
+                        showarry.push("英文大寫 (En Upper case)")
+                        break;
+                    case "Sw":
+                        showarry.push("英文小寫 (En Lower case)")
+                        break;
+                    case "m":
+                        showarry.push("數字(Number)")
+                        break;
+                    case "s":
+                        showarry.push("特殊符號(Special symbols)")
+                        break;
+                }
+
+            }
+        }
+
+        a = 0, b = 0, c = 0, d = 0, e = 0;
+        for (var x = 0; x < L; x++) {
+            //亂數*需求有幾個 取得每一次不同的字串
+            i = Math.floor(Math.random() * need_arry.length)
+
+            //i是需求的陣列 隨機骰出一個位置 後加入至密碼
+            switch (need_arry[i]) {
+                case "BwSw":
+                    if (Math.floor(Math.random() * 2) == 0) {
+                        N_psw += Bw[Math.floor(Math.random() * Bw.length)]
+                    } else {
+                        N_psw += Sw[Math.floor(Math.random() * Sw.length)]
+                    }
+                    a = 1;
+                    break;
+                case "Bw":
+                    N_psw += Bw[Math.floor(Math.random() * Bw.length)]
+                    b = 1;
+                    break;
+                case "Sw":
+                    N_psw += Sw[Math.floor(Math.random() * Sw.length)]
+                    c = 1;
+                    break;
+                case "m":
+                    N_psw += m[Math.floor(Math.random() * m.length)]
+                    d = 1;
+                    break;
+                case "s":
+                    N_psw += s[Math.floor(Math.random() * s.length)]
+                    e = 1;
+                    break;
+
+            }
+
+
+        }
+        //檢查需求
+        if ((a + b + c + d + e) != need_arry.length) {
+            console.log("不符合需求密碼,重新產生")
+            new_ps()
+        } else {
+            //需求達成,印出結果
+
+
+
+            document.getElementById("ps1").value = N_psw;
+            document.getElementById("com").innerText = showarry;
+        }
+    }
+
+
+
+
+
+
+
+</script>
+<script>
+    //將localStorage的紀錄打印在畫面上
+    //此為第一次進入畫面自動執行一次
+    RecordPSW()
+    //按下複製密碼,並將新的紀錄打印在畫面上
+    function RecordPSW() {
+        document.getElementById("Retable").innerHTML = '';
+        for (var x = (STtmp.length - 1); x >= 0; x--) {
+            if (x % 2 == 0) {
+                backcolor = "background: #fcd6ff;"
+            } else {
+                backcolor = "background: #c1ffea;"
+            }
+            document.getElementById("Retable").innerHTML += '<tr style="' + backcolor + '"><td style="width:420px">' + STtmp[x].psw + '</td><td style="width:180px">' + STtmp[x].datetime + '</td><td style="width:100px">' + STtmp[x].com + '</td></tr>'
+
+        }
+    }
+
+    //刪除記錄
+    function delRe() {
+        localStorage.clear();
+        document.getElementById("Retable").innerHTML = ""
+        STtmp = [];
+
+    }
+
+
+
+
+</script>
+
+</html>
