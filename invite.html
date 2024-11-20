@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui;
+            background-color: #0d1b2a;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+
+        /* 按鈕容器 */
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .tech-button {
+            position: relative;
+            background: linear-gradient(145deg, #1a2a48, #223a5e);
+            color: #ffffff;
+            font-size: 50px;
+            font-weight: bold;
+            border: none;
+            padding: 15px 40px;
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(30, 90, 255, 0.4);
+            width: 150px;
+            height: 150px;
+            margin: 30px;
+        }
+
+        /* 按鈕的 hover 效果 */
+        .tech-button:hover {
+            color: #1e5aff;
+            background: linear-gradient(145deg, #224b7a, #325d8a);
+            box-shadow: 0 6px 20px rgba(30, 90, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* 按鈕的發光邊框效果 */
+        .tech-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(90deg, rgba(30, 90, 255, 0.8), rgba(30, 90, 255, 0.2));
+            z-index: -1;
+            border-radius: 10px;
+            animation: glow 3s linear infinite;
+        }
+
+        /* 發光的動態效果 */
+        @keyframes glow {
+            0% {
+                filter: blur(4px);
+            }
+
+            50% {
+                filter: blur(8px);
+            }
+
+            100% {
+                filter: blur(4px);
+            }
+        }
+
+
+
+        /* 橫幅容器 */
+        .banner {
+            position: fixed;
+            right: -100%;
+            /* 初始位置在螢幕外 */
+            width: 100%;
+            height: 300px;
+            background-color: #fff;
+            color: #222;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: slide-in 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 文字與按鈕容器 */
+        .content {
+            text-align: center;
+        }
+
+        /* 標題文字 */
+        .content h1 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+        }
+
+        /* 按鈕容器 */
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px;
+
+        }
+
+        /* 按鈕樣式 */
+        .btn {
+            background-color: #ff7f0e;
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            margin: 20px;
+            height: 80px;
+            width: 120px;
+            font-size: 30px;
+        }
+
+        /* 按鈕 hover 效果 */
+        .btn:hover {
+            background-color: #e06a00;
+            transform: scale(1.1);
+        }
+
+        /* 橫幅進場動畫 */
+        @keyframes slide-in {
+            0% {
+                right: -100%;
+                /* 起始位置在螢幕外 */
+            }
+
+            100% {
+                right: 0;
+                /* 最終位置 */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="OpenMessage" style="display: flex;justify-content: center;align-items: center;margin-top: 10%;">
+        <div style="width: 600px ;height: 450px;background-color: rgba(42, 42, 204, 0.637);    text-align: center;">
+            <div style="color: white; font-size: 50px;font-weight: bold;margin: 40px 0;">Open Message</div>
+            <div style="color:white">有一部影片需要 7 分鐘需要妳看完</div>
+            <div class="button-container">
+                <button class="tech-button" onclick="Y()" id="play-button">Y</button>
+                <a href="javascript:window.opener=null;window.close();">
+                    <button class="tech-button">N</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="video-container" style="display: none;justify-content: center;align-items: center;margin-top: -3%;">
+        <iframe id="youtube-player" width="1700" height="900"
+            src="https://www.youtube.com/embed/DMlY6NURmVE?enablejsapi=1;si=7vwl1GoTxuEiw_EB&amp;start=4"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    </div>
+    <div style=" color: white; font-size: 40px; width: 100%;text-align: center;margin-top: 10px;">
+        <div id="ComeBack" style="font-weight: bold; display: none;">回來一起戰鬥吧</div>
+
+    </div>
+
+
+    <div id="intDIv" class="banner">
+        <div class="content">
+            <div style="font-size: 30px;">
+                中二綠毛蟲,魔法地精,Oasis <br>
+                邀請妳加入隊伍
+            </div>
+            <div class="buttons">
+                <a href="https://overwatch.blizzard.com/zh-tw/"><button class="btn">是</button></a>
+                <a href="javascript:window.opener=null;window.close();"><button class="btn">否</button></a>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+
+    // 儲存 YouTube Player 實例
+    let player;
+    let targetTime = 467; // 觸發功能的時間點（秒）
+    let hasTriggered = false; // 確保功能只觸發一次
+
+    // YouTube API 加載完成後初始化 Player
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('youtube-player', {
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    function onPlayerReady(event) {
+        player.playVideo(); // 自動播放影片
+        checkTime(); // 啟動時間偵測
+    }
+
+
+    // 偵測時間
+    function checkTime() {
+        setInterval(() => {
+            if (player && player.getCurrentTime) {
+                const currentTime = player.getCurrentTime();
+                if (!hasTriggered && currentTime >= targetTime) {
+                    hasTriggered = true; // 確保只觸發一次
+                    triggerFunction(); // 呼叫觸發的功能
+                }
+                if (currentTime >= 323 && !hasTriggered && currentTime <= 326) {
+                    document.getElementById("ComeBack").style.display = "block";
+                } else {
+                    document.getElementById("ComeBack").style.display = "none";
+
+                }
+            }
+        }, 1000); // 每秒檢查一次
+    }
+    // 當影片狀態改變時的處理（可選功能）
+    function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.PLAYING) {
+
+        }
+    }
+    // 觸發的功能
+    function triggerFunction() {
+        document.getElementById("video-container").style.display = "none";
+        document.getElementById('intDIv').style.display = "block"
+
+    }
+
+    // 動態加載 YouTube Iframe API
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+
+
+    function Y() {
+        document.getElementById("OpenMessage").style.display = "none";
+        document.getElementById("video-container").style.display = "flex";
+        onPlayerReady()
+    }
+
+
+
+</script>
+
+</html>
