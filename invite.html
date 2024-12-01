@@ -260,7 +260,7 @@
         <div class="progress-bar" id="progress-bar"></div>
     </div>
 
-    <video id="cat_video" style="display: none;" src="./搖擺貓咪.mp4" width="100%" loop autoplay style="position: absolute; top:180px;"></video>
+    <video id="cat_video" style="display: none;" src="./video/搖擺貓咪.mp4" width="100%" loop autoplay style="position: absolute; top:180px;"></video>
 
 
 </body>
@@ -270,7 +270,7 @@
     let player;
     let targetTime = 467; // 觸發功能的時間點（秒）
     let hasTriggered = false; // 確保功能只觸發一次
-    const audio = new Audio('./ow邀請音效增大.mp3'); // 替換成你的音效檔案路徑
+    const audio = new Audio('./SE/ow邀請音效增大.mp3'); // 替換成你的音效檔案路徑
     document.getElementById("cat_video").pause();
 
     // YouTube API 加載完成後初始化 Player
