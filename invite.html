@@ -83,23 +83,6 @@
         }
 
 
-
-        /* 橫幅容器 */
-        .banner {
-            position: fixed;
-            right: -100%;
-            /* 初始位置在螢幕外 */
-            width: 100%;
-            height: 300px;
-            background-color: #fff;
-            color: #222;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            animation: slide-in 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
-        }
-
         /* 文字與按鈕容器 */
         .content {
             text-align: center;
@@ -154,10 +137,87 @@
                 /* 最終位置 */
             }
         }
+
+        /* ///// */
+        .container_3 {
+            width: 100%;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            animation: slide-in 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .header {
+            font-size: 16px;
+            color: #bbb;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            font-size: 22px;
+            margin: 15px 0;
+            color: white;
+        }
+
+        .highlight {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .buttons_3 {
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            width: 150px;
+            height: 60px;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .btn.decline {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .btn.decline:hover {
+            background-color: #666;
+        }
+
+        .btn.accept {
+            background-color: #ff5500;
+            color: #fff;
+        }
+
+        .btn.accept:hover {
+            background-color: #ff7700;
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 8px;
+            background-color: #00ccff;
+            width: 100%;
+            border-radius: 0 0 10px 10px;
+            transition: width 0.5s linear;
+        }
     </style>
 </head>
 
 <body>
+    <!-- 第一步 -->
     <div id="OpenMessage" style="display: flex;justify-content: center;align-items: center;margin-top: 10%;">
         <div style="width: 600px ;height: 450px;background-color: rgba(42, 42, 204, 0.637);    text-align: center;">
             <div style="color: white; font-size: 50px;font-weight: bold;margin: 40px 0;">Open Message</div>
@@ -171,33 +231,37 @@
         </div>
     </div>
 
-
+    <!-- 第二步 -->
     <div id="video-container" style="display: none;justify-content: center;align-items: center;margin-top: -3%;">
         <iframe id="youtube-player" width="1700" height="900"
             src="https://www.youtube.com/embed/DMlY6NURmVE?enablejsapi=1;si=7vwl1GoTxuEiw_EB&amp;start=4"
             title="YouTube video player" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
     </div>
     <div style=" color: white; font-size: 40px; width: 100%;text-align: center;margin-top: 10px;">
         <div id="ComeBack" style="font-weight: bold; display: none;">回來一起戰鬥吧</div>
-
     </div>
 
-
-    <div id="intDIv" class="banner">
-        <div class="content">
-            <div style="font-size: 30px;">
-                中二綠毛蟲,魔法地精,Oasis <br>
-                邀請妳加入隊伍
-            </div>
-            <div class="buttons">
-                <a href="https://overwatch.blizzard.com/zh-tw/"><button class="btn">是</button></a>
-                <a href="javascript:window.opener=null;window.close();"><button class="btn">否</button></a>
-            </div>
+    <!-- 第三步 -->
+    <div id="intDIv" class="container_3" style="display: none; z-index: 999;">
+        <div class="header">
+            <span class="icon">⚙</span> 尚未回覆的團隊邀請
         </div>
+        <div class="message">
+            <i> 加入 <span class="highlight">中二綠毛蟲,魔法地精,OASIS</span> 的團隊？</i>
+        </div>
+        <div class="buttons_3">
+            <a href="https://overwatch.blizzard.com/zh-tw/"></a><button class="btn decline"><span
+                    style="border: 1px solid white ; padding: 5px 10px;">N</span> 拒絕</button></a>
+            <a href="javascript:window.opener=null;window.close();"></a><button class="btn accept"><span
+                    style="border: 1px solid white ; padding: 5px 10px;">Y</span> 接受</button></a>
+        </div>
+        <div class="progress-bar" id="progress-bar"></div>
     </div>
+
+    <video id="cat_video" style="display: none;" src="./搖擺貓咪.mp4" width="100%" loop autoplay style="position: absolute; top:180px;"></video>
+
 
 </body>
 <script>
@@ -206,6 +270,8 @@
     let player;
     let targetTime = 467; // 觸發功能的時間點（秒）
     let hasTriggered = false; // 確保功能只觸發一次
+    const audio = new Audio('./ow邀請音效增大.mp3'); // 替換成你的音效檔案路徑
+    document.getElementById("cat_video").pause();
 
     // YouTube API 加載完成後初始化 Player
     function onYouTubeIframeAPIReady() {
@@ -231,6 +297,9 @@
                 if (!hasTriggered && currentTime >= targetTime) {
                     hasTriggered = true; // 確保只觸發一次
                     triggerFunction(); // 呼叫觸發的功能
+                    player.stopVideo(); // 停止
+                    audio.play();
+
                 }
                 if (currentTime >= 323 && !hasTriggered && currentTime <= 326) {
                     document.getElementById("ComeBack").style.display = "block";
@@ -251,7 +320,10 @@
     function triggerFunction() {
         document.getElementById("video-container").style.display = "none";
         document.getElementById('intDIv').style.display = "block"
-
+        startCountdown()
+        document.getElementById("cat_video").style.display ="block"
+        document.getElementById("cat_video").play();
+        
     }
 
     // 動態加載 YouTube Iframe API
@@ -268,6 +340,32 @@
         onPlayerReady()
     }
 
+    function startCountdown() {
+        const progressBar = document.getElementById('progress-bar');
+        const countdown = document.getElementById('countdown');
+        const duration = 10; // 倒數時間（秒）
+        let timeRemaining = duration;
+
+        // 每 100 毫秒更新一次進度條
+        const interval = setInterval(() => {
+            timeRemaining -= 0.1; // 減少時間
+            const percentage = (timeRemaining / duration) * 100;
+
+            // 更新進度條寬度
+            progressBar.style.width = `${percentage}%`;
+
+            // 更新倒數文字
+            countdown.textContent = Math.ceil(timeRemaining);
+
+            // 當時間結束，停止倒數
+            if (timeRemaining <= 0) {
+                clearInterval(interval);
+                progressBar.style.width = '0%';
+                countdown.textContent = '0';
+                alert('Countdown Finished!');
+            }
+        }, 100); // 每 100 毫秒執行一次
+    }
 
 
 </script>
