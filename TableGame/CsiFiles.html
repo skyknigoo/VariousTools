@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>輔助器</title>
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.css">
+    <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: rgb(173, 173, 173);
+        }
+
+        .parent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .TitleText {
+            font-weight: bold;
+        }
+
+        .ChosePlayer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .ChosePlayer button {
+            margin: 1px 3px;
+            width: 75px;
+            height: 50px;
+        }
+
+        /* 按鈕選中狀態 */
+        .btn.active {
+            background-color: #007bff !important;
+            color: white !important;
+        }
+
+        .badguy {
+            color: red;
+        }
+
+        .goodguy {
+            color: rgb(0, 52, 165);
+        }
+        #TotalPlayer{
+            height: 20px;
+        }
+        #ShowPlayerSet {
+            width: 100%;
+            height: 80px;
+        }
+
+        .headTitle {
+            font-family: 'cursive';
+            font-size: 30px;
+            color: #8B0000;
+            /* 暗紅色 */
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+            /* 黑色陰影，增加懸疑感 */
+            letter-spacing: 2px;
+            /* 增加字距，增強壓迫感 */
+            text-transform: uppercase;
+            /* 全大寫，提升戲劇感 */
+        }
+
+        /* 整體外框 */
+        .time-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            /* 上下間距 */
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 單個時間區塊 */
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 標題 */
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* 控制區塊 */
+        .time-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 輸入框 */
+        .time-controls input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* 按鈕 */
+        .btn-small {
+            width: 60px;
+            height: 32px;
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h2 class="headTitle" style="text-align: center;margin-top:30px;">犯罪現場 (CS Files)</h2>
+
+    <div class="parent">
+        <h3 class="TitleText">人數設置</h3>
+        <div class="ChosePlayer" id="playerButtons"></div>
+        <h3 class="TitleText">角色建議配置</h3>
+        <div id="TotalPlayer"></div>
+        <div id="ShowPlayerSet"></div>
+        <h3 class="TitleText">時間配置</h3>
+        <div class="time-container">
+            <div class="time-box">
+                <span class="title">簡報時間</span>
+                <div class="time-controls">
+                    <input type="number" id="ATT_Min" class="AllTalkTime" min="0" value="1">
+                    <label>分</label>
+                    <input type="number" id="ATT_Sec" class="AllTalkTime" min="0" value="30">
+                    <label>秒</label>
+                    <button class="btn btn-primary btn-small">-</button>
+                    <button class="btn btn-primary btn-small">+</button>
+                </div>
+            </div>
+
+            <div class="time-box">
+                <span class="title">個人時間</span>
+                <div class="time-controls">
+                    <input type="number" id="OTT_Min" class="OneTalkTime" min="0" value="1">
+                    <label>分</label>
+                    <input type="number" id="OTT_Sec" class="OneTalkTime" min="0" value="0">
+                    <label>秒</label>
+                    <button class="btn btn-primary btn-small">-</button>
+                    <button class="btn btn-primary btn-small">+</button>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 30px;">
+            <button  class="btn btn-success btn-lg"> 設置完畢</button>
+        </div>
+
+
+    </div>
+
+    <script>
+        // 角色配置表
+        const roleConfigs = {
+            4: { good: "３好人", bad: "１壞人", roles: "１鑑證專家，２調查員<div class='badguy'>１兇手</div>" },
+            5: { good: "４好人", bad: "１壞人", roles: "１鑑證專家，３調查員<div class='badguy'>１兇手</div>" },
+            6: { good: "４好人", bad: "２壞人", roles: "１鑑證專家，２調查員<div class='goodguy'>１目擊者</div><div class='badguy'>１兇手，１幫兇</div>" },
+            7: { good: "５好人", bad: "２壞人", roles: "１鑑證專家，３調查員<div class='goodguy'>１目擊者</div><div class='badguy'>１兇手，１幫兇</div>" },
+            8: { good: "５好人", bad: "３壞人", roles: "１鑑證專家，２調查員<div class='goodguy'>１目擊者，１化驗師</div><div class='badguy'>１兇手，１幫兇，１涉案人</div>" },
+            9: { good: "６好人", bad: "３壞人", roles: "１鑑證專家，３調查員<div class='goodguy'>１目擊者，１化驗師</div><div class='badguy'>１兇手，１幫兇，１涉案人</div>" },
+            10: { good: "７好人", bad: "３壞人", roles: "１鑑證專家，３調查員<div class='goodguy'>１目擊者，１化驗師，１秘密保鑣</div><div class='badguy'>１兇手，１幫兇，１涉案人</div>" },
+            11: { good: "７好人", bad: "４壞人", roles: "１鑑證專家，３調查員<div class='goodguy'>１目擊者，１化驗師，１秘密保鑣</div><div class='badguy'>１兇手，２幫兇，１涉案人</div>" },
+            12: { good: "８好人", bad: "４壞人", roles: "１鑑證專家，４調查員<div class='goodguy'>１目擊者，１化驗師，１秘密保鑣</div><div class='badguy'>１兇手，２幫兇，１涉案人</div>" },
+            13: { good: "９好人", bad: "４壞人", roles: "１鑑證專家，５調查員<div class='goodguy'>１目擊者，１化驗師，１秘密保鑣</div><div class='badguy'>１兇手，２幫兇，１涉案人</div>" },
+            14: { good: "１０好人", bad: "４壞人", roles: "１鑑證專家，６調查員<div class='goodguy'>１目擊者，１化驗師，１秘密保鑣</div><div class='badguy'>１兇手，２幫兇，１涉案人</div>" }
+        };
+
+        // 動態生成按鈕
+        const playerButtons = document.getElementById("playerButtons");
+        for (let i = 4; i <= 14; i++) {
+            let button = document.createElement("button");
+            button.className = "btn btn-light ChoseBtnA";
+            button.textContent = `${i}人`;
+            button.onclick = () => ChosePlayer(i);
+            playerButtons.appendChild(button);
+        }
+
+        // 選擇人數後的處理
+        function ChosePlayer(playerNum) {
+            const PlayerSet = document.getElementById("ShowPlayerSet");
+            const TotalPlayerText = document.getElementById("TotalPlayer");
+
+            if (roleConfigs[playerNum]) {
+                PlayerSet.innerHTML = `<div>${roleConfigs[playerNum].roles}</div>`;
+                TotalPlayerText.innerHTML = `<div><span class='goodguy'>${roleConfigs[playerNum].good}</span> / <span class='badguy'>${roleConfigs[playerNum].bad}</span></div>`;
+            }
+
+            // 移除所有按鈕的 active 樣式
+            document.querySelectorAll(".ChosePlayer .btn").forEach(btn => btn.classList.remove("active"));
+
+            // 為點擊的按鈕添加 active 樣式
+            event.target.classList.add("active");
+        }
+    </script>
+
+</body>
+
+</html>
