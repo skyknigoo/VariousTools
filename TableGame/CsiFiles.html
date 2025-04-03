@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>輔助器</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -12,7 +12,15 @@
             background-color: rgb(173, 173, 173);
         }
 
-        .parent {
+        .parent1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .parent2 {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -140,6 +148,45 @@
             background: linear-gradient(to right, transparent, #ff0000, transparent);
             width: 100%;
         }
+
+        .reciprocalTime {
+            margin: 50px 0;
+            font-size: 50px;
+        }
+
+        #TimeControls {
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+        }
+
+        #TimeControls button {
+            width: 120px;
+            height: 60px;
+        }
+
+        #Step2_Time {
+            display: none;
+        }
+
+        #Step3_Time {
+            display: none;
+        }
+
+        #NextBtn {
+            display: none;
+        }
+
+        #SequenceOfSpeech {
+            display: none;
+        }
+
+        .DownBtnDiv {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 300px;
+        }
     </style>
 
 </head>
@@ -148,7 +195,7 @@
     <h2 class="headTitle" style="text-align: center;margin-top:10px;">犯罪現場 (CS Files)</h2>
     <hr class="hr-edge-weak">
 
-    <div class="parent">
+    <div class="parent1">
         <h3 class="TitleText">人數設置</h3>
         <div class="ChosePlayer" id="playerButtons"></div>
 
@@ -163,36 +210,84 @@
         <h3 class="TitleText">時間配置</h3>
         <div class="time-container">
             <div class="time-box">
-                <span class="title">簡報時間</span>
+                <span class="title">蒐證時間</span>
                 <div class="time-controls">
                     <input type="number" id="ATT_Min" class="AllTalkTime" min="0" value="1">
                     <label>分</label>
                     <input type="number" id="ATT_Sec" class="AllTalkTime" min="0" value="30">
                     <label>秒</label>
-                    <button class="btn btn-primary btn-small">-</button>
-                    <button class="btn btn-primary btn-small">+</button>
+                    <button class="btn btn-primary btn-small" onclick="updateTime('ATT', 15)">+</button>
+                    <button class="btn btn-primary btn-small" onclick="updateTime('ATT', -15)">-</button>
                 </div>
             </div>
 
             <div class="time-box">
-                <span class="title">個人時間</span>
+                <span class="title">簡報時間</span>
                 <div class="time-controls">
                     <input type="number" id="OTT_Min" class="OneTalkTime" min="0" value="1">
                     <label>分</label>
                     <input type="number" id="OTT_Sec" class="OneTalkTime" min="0" value="0">
                     <label>秒</label>
-                    <button class="btn btn-primary btn-small">-</button>
-                    <button class="btn btn-primary btn-small">+</button>
+                    <button class="btn btn-primary btn-small" onclick="updateTime('OTT', 15)">+</button>
+                    <button class="btn btn-primary btn-small" onclick="updateTime('OTT', -15)">-</button>
                 </div>
             </div>
         </div>
         <div style="margin-top: 30px;">
-            <button class="btn btn-success btn-lg"> 設置完畢</button>
+            <button class="btn btn-success btn-lg" onclick="SetDone()"> 設置完畢</button>
         </div>
-
-
     </div>
 
+    <div class="parent2" style="display: none;">
+        <h1 id="GameRound">第 1 / 3 輪</h1>
+        <h2 id="SequenceOfSpeech">第 <sapn id="nowPlayers">1</sapn> / <span id="maxPlayers">X</span> 人 </h2>
+        <hr class="hr-edge-weak">
+
+        <div id="Step1_Time">
+            <h3 class="TitleText">蒐證時間</h3>
+            <div class="reciprocalTime"><span id="ATTMin_show"></span>:<span id="ATTSec_show"></span></div>
+        </div>
+        <div id="Step2_Time">
+            <h3 class="TitleText">簡報時間</h3>
+            <div class="reciprocalTime"><span id="OTTMin_show"></span>:<span id="OTTSec_show"></span></div>
+        </div>
+        <div id="Step3_Time">
+            <h3 class="TitleText">兇手的垂死掙扎，找出目擊者！</h3>
+            <div class="reciprocalTime"><span id="BGMin_show"></span>:<span id="BGSec_show"></span></div>
+
+        </div>
+
+        <div id="TimeControls">
+            <button onclick="startStopCountdown()" type="button" id="StartOrStopBtn"
+                class="btn btn-primary btn-lg">開始</button>
+            <button onclick="Step1_TimeEnd()" type="button" id="Step1_TimeEndBtn"
+                class="btn btn-danger btn-lg">蒐證結束</button>
+            <button onclick="NextCountdown()" type="button" id="NextBtn" class="btn btn-success  btn-lg">下一個</button>
+        </div>
+        <hr class="hr-edge-weak">
+        <div class="DownBtnDiv">
+            <div>
+                <button onclick="NewGame()" type="button" class="btn btn-success  btn-lg"> 新的一輪</button>
+            </div>
+
+            <div>
+                <button id="GetBadGuyBtn" onclick="GetBadGuyFN()" style="display: none;" type="button"
+                    class="btn btn-warning btn-lg"> 抓到兇手</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        //全域變數
+        var Players = 4
+        var ATTMin = 1
+        var ATTSce = 30
+        var OTTMin = 1
+        var OTTSce = 0
+        var RoundTime = 1
+        var TheX_Players = 1
+        var Step1Time = true
+        var GetBadGuy = false
+    </script>
     <script>
         // 角色配置表
         const roleConfigs = {
@@ -234,7 +329,195 @@
 
             // 為點擊的按鈕添加 active 樣式
             event.target.classList.add("active");
+            Players = playerNum
+
+
         }
+
+        function updateTime(prefix, change) {
+            let minInput = document.getElementById(prefix + '_Min');
+            let secInput = document.getElementById(prefix + '_Sec');
+            let totalSeconds = parseInt(minInput.value || 0) * 60 + parseInt(secInput.value || 0) + change;
+            totalSeconds = Math.max(0, totalSeconds); // 避免負數
+            minInput.value = Math.floor(totalSeconds / 60);
+            secInput.value = totalSeconds % 60;
+            if (prefix == "ATT") {
+                ATTMin = minInput.value
+                ATTSce = secInput.value
+            }
+            if (prefix == "OTT") {
+                OTTMin = minInput.value
+                OTTSce = secInput.value
+            }
+        }
+        function SetDone() {
+            document.getElementsByClassName("parent1")[0].style.display = "none"
+            document.getElementsByClassName("parent2")[0].style.display = ""
+            document.getElementById("maxPlayers").innerText = Players
+            document.getElementById("OTTMin_show").innerText = String(OTTMin).padStart(2, '0')
+            document.getElementById("OTTSec_show").innerText = String(OTTSce).padStart(2, '0')
+            setCountdown(ATTMin, ATTSce)
+            if (Players >= 6) {
+                document.getElementById("GetBadGuyBtn").style.display = "block"
+            }
+        }
+    </script>
+    <script>
+        //倒數功能
+        let countdownTimer;
+        let timeLeft = 0;
+        let isCounting = false;
+
+        // 設定倒數時間 (分鐘, 秒)
+        function setCountdown(minutes, seconds) {
+            timeLeft = parseInt((minutes * 60)) + parseInt(seconds)
+            updateDisplay();
+        }
+
+        // 更新時間顯示
+        function updateDisplay() {
+            let min = Math.floor(timeLeft / 60);
+            let sec = timeLeft % 60;
+            if (Step1Time) {
+                document.getElementById('ATTMin_show').textContent = String(min).padStart(2, '0')
+                document.getElementById('ATTSec_show').textContent = String(sec).padStart(2, '0');
+            } else {
+                document.getElementById('OTTMin_show').textContent = String(min).padStart(2, '0')
+                document.getElementById('OTTSec_show').textContent = String(sec).padStart(2, '0');
+            }
+
+            if (GetBadGuy) {
+                document.getElementById('BGMin_show').textContent = String(min).padStart(2, '0')
+                document.getElementById('BGSec_show').textContent = String(sec).padStart(2, '0');
+            }
+        }
+
+        // 開始或暫停倒數
+        function startStopCountdown() {
+            if (isCounting) {
+                clearInterval(countdownTimer);
+                document.getElementById('StartOrStopBtn').textContent = "繼續";
+                document.getElementById('StartOrStopBtn').classList.replace("btn-danger", "btn-success");
+            } else {
+                countdownTimer = setInterval(() => {
+                    if (timeLeft <= 0) {
+                        clearInterval(countdownTimer);
+                        document.getElementById('StartOrStopBtn').textContent = "開始";
+                        document.getElementById('StartOrStopBtn').classList.replace("btn-danger", "btn-success");
+                        isCounting = false;
+                    } else {
+                        timeLeft--;
+                        updateDisplay();
+                    }
+                }, 1000);
+                document.getElementById('StartOrStopBtn').textContent = "暫停";
+                document.getElementById('StartOrStopBtn').classList.replace("btn-success", "btn-danger");
+            }
+            isCounting = !isCounting;
+        }
+
+        // 蒐證結束 
+        function Step1_TimeEnd() {
+            document.getElementById("Step1_TimeEndBtn").style.display = "none"
+            document.getElementById("NextBtn").style.display = "block"
+
+            document.getElementById('StartOrStopBtn').textContent = "開始";
+            document.getElementById('StartOrStopBtn').classList.replace("btn-danger", "btn-success");
+            isCounting = false;
+            document.getElementById("Step1_Time").style.display = "none"
+            document.getElementById("Step2_Time").style.display = "block"
+            document.getElementById("SequenceOfSpeech").style.display = "block"
+            document.getElementById("NextBtn").innerText = "下一個"
+            Step1Time = false
+            clearInterval(countdownTimer);
+            setCountdown(OTTMin, OTTSce);
+        }
+
+
+        // 簡報 重置並開始倒數
+        function NextCountdown() {
+            if (TheX_Players == Players - 1) {
+                document.getElementById("NextBtn").innerText = "結束簡報"
+            }
+            if (TheX_Players < Players) {
+                clearInterval(countdownTimer);
+                setCountdown(OTTMin, OTTSce);
+                isCounting = false;
+                startStopCountdown();
+                TheX_Players += 1
+                document.getElementById("nowPlayers").innerText = TheX_Players
+
+            } else if (TheX_Players == Players && RoundTime == 3) {
+
+            }
+            else {
+                clearInterval(countdownTimer);
+
+                RoundTime += 1
+                TheX_Players = 1
+                document.getElementById("nowPlayers").innerText = TheX_Players
+                document.getElementById("GameRound").innerText = "第 " + RoundTime + " / 3 輪"
+
+                //簡報時間
+                document.getElementById("Step1_Time").style.display = "block"
+                document.getElementById("Step2_Time").style.display = "none"
+                document.getElementById('StartOrStopBtn').textContent = "開始";
+                document.getElementById('StartOrStopBtn').classList.replace("btn-danger", "btn-success");
+                isCounting = false;
+                Step1Time = true
+                setCountdown(ATTMin, ATTSce);
+                document.getElementById("Step1_TimeEndBtn").style.display = "block"
+                document.getElementById("NextBtn").style.display = "none"
+                document.getElementById("SequenceOfSpeech").style.display = "none"
+
+
+
+            }
+
+        }
+
+        //重新一輪
+        function NewGame() {
+            TheX_Players = 1
+            RoundTime = 1
+            document.getElementById("nowPlayers").innerText = TheX_Players
+            document.getElementById("GameRound").innerText = "第 " + RoundTime + " / 3 輪"
+            document.getElementById("Step1_Time").style.display = "block"
+            document.getElementById("Step2_Time").style.display = "none"
+            document.getElementById("Step3_Time").style.display = "none"
+            document.getElementById("Step1_TimeEndBtn").style.display = "block"
+            if (Players >= 6) {
+                document.getElementById("GetBadGuyBtn").style.display = "block"
+            }
+            document.getElementById('StartOrStopBtn').textContent = "開始";
+            document.getElementById('StartOrStopBtn').classList.replace("btn-danger", "btn-success");
+            document.getElementById("NextBtn").style.display = "none"
+            document.getElementById("NextBtn").innerText = "下一個"
+
+            isCounting = false;
+            Step1Time = true;
+            GetBadGuy = false;
+
+            clearInterval(countdownTimer);
+            setCountdown(ATTMin, ATTSce);
+
+        }
+        // 抓到兇手 殺害目擊者
+        function GetBadGuyFN() {
+            document.getElementById("Step1_Time").style.display = "none"
+            document.getElementById("Step2_Time").style.display = "none"
+            document.getElementById("Step3_Time").style.display = "block"
+            document.getElementById("GetBadGuyBtn").style.display = "none"
+            document.getElementById("Step1_TimeEndBtn").style.display = "none"
+            isCounting = false;
+            Step1Time = true;
+            GetBadGuy = true;
+            clearInterval(countdownTimer);
+            setCountdown(1, 0);
+        }
+
+
+
     </script>
 
 </body>
