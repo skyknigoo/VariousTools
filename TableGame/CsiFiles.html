@@ -35,7 +35,7 @@
         .ChosePlayer button {
             margin: 1px 3px;
             width: 75px;
-            height: 50px;
+            height: 45px;
         }
 
         /* 按鈕選中狀態 */
@@ -51,9 +51,11 @@
         .goodguy {
             color: rgb(0, 52, 165);
         }
-        #TotalPlayer{
+
+        #TotalPlayer {
             height: 20px;
         }
+
         #ShowPlayerSet {
             width: 100%;
             height: 80px;
@@ -130,19 +132,34 @@
             align-items: center;
             border-radius: 5px;
         }
+
+        /* 分隔線 */
+        .hr-edge-weak {
+            border: 0;
+            padding-top: 2px;
+            background: linear-gradient(to right, transparent, #ff0000, transparent);
+            width: 100%;
+        }
     </style>
 
 </head>
 
 <body>
-    <h2 class="headTitle" style="text-align: center;margin-top:30px;">犯罪現場 (CS Files)</h2>
+    <h2 class="headTitle" style="text-align: center;margin-top:10px;">犯罪現場 (CS Files)</h2>
+    <hr class="hr-edge-weak">
 
     <div class="parent">
         <h3 class="TitleText">人數設置</h3>
         <div class="ChosePlayer" id="playerButtons"></div>
+
+        <hr class="hr-edge-weak">
+
         <h3 class="TitleText">角色建議配置</h3>
         <div id="TotalPlayer"></div>
         <div id="ShowPlayerSet"></div>
+
+        <hr class="hr-edge-weak">
+
         <h3 class="TitleText">時間配置</h3>
         <div class="time-container">
             <div class="time-box">
@@ -170,7 +187,7 @@
             </div>
         </div>
         <div style="margin-top: 30px;">
-            <button  class="btn btn-success btn-lg"> 設置完畢</button>
+            <button class="btn btn-success btn-lg"> 設置完畢</button>
         </div>
 
 
