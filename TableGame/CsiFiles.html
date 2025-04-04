@@ -31,6 +31,10 @@
         .TitleText {
             font-weight: bold;
         }
+        .TitleText2{
+            font-weight: bold;
+            font-size: 40px;
+        }
 
         .ChosePlayer {
             display: flex;
@@ -244,11 +248,11 @@
         <hr class="hr-edge-weak">
 
         <div id="Step1_Time">
-            <h3 class="TitleText">蒐證時間</h3>
+            <h3 class="TitleText2">蒐證時間</h3>
             <div class="reciprocalTime"><span id="ATTMin_show"></span>:<span id="ATTSec_show"></span></div>
         </div>
         <div id="Step2_Time">
-            <h3 class="TitleText">簡報時間</h3>
+            <h3 class="TitleText2">簡報時間</h3>
             <div class="reciprocalTime"><span id="OTTMin_show"></span>:<span id="OTTSec_show"></span></div>
         </div>
         <div id="Step3_Time">
@@ -329,7 +333,7 @@
 
             // 為點擊的按鈕添加 active 樣式
             event.target.classList.add("active");
-            Players = playerNum
+            Players = playerNum-1
 
 
         }
